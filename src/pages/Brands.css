@@ -1,0 +1,29 @@
+/* src/pages/Brands.css */
+.brands-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+.brand-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.brand-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.brand-big { font-size: 2.75rem; margin-bottom: 0.75rem; }
+.brand-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+.brand-card p { font-size: 0.85rem; color: var(--text-2); margin-bottom: 0.75rem; }
+.brand-shop { font-size: 0.8rem; font-weight: 600; color: var(--primary); }

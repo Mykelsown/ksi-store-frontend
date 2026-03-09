@@ -1,0 +1,89 @@
+/* src/pages/About.css */
+.about-container { max-width: 860px; }
+.about-intro { font-size: 1.15rem; color: var(--text-2); margin-bottom: 2.5rem; line-height: 1.8; }
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+.stat-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  border: 1.5px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.stat-card strong {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.25rem;
+}
+.stat-card span { font-size: 0.85rem; color: var(--text-2); }
+
+.about-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.about-story h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}
+.about-story p { color: var(--text-2); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
+.about-visual {
+  background: var(--primary-ultra);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1.5px solid var(--primary-xlight);
+}
+.about-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+.about-emoji-grid span { font-size: 2.5rem; }
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.25rem;
+}
+.team-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.team-avatar {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  width: 60px;
+  height: 60px;
+  background: var(--surface-2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.75rem;
+}
+.team-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 0.25rem; }
+.team-card p { font-size: 0.82rem; color: var(--text-2); }
+
+@media (max-width: 768px) {
+  .about-stats { grid-template-columns: repeat(2, 1fr); }
+  .about-story { grid-template-columns: 1fr; }
+}

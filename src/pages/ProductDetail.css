@@ -1,0 +1,157 @@
+/* src/pages/ProductDetail.css */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-2);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  transition: all 0.2s;
+  background: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+.back-btn:hover { color: var(--primary); border-color: var(--primary); }
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+.detail-image-wrap { text-align: center; }
+.detail-image {
+  background: var(--surface-2);
+  border-radius: var(--radius-lg);
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8rem;
+  border: 1.5px solid var(--border);
+}
+.detail-brand {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.detail-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  line-height: 1.2;
+}
+.detail-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--text-2);
+  font-size: 0.9rem;
+}
+.detail-price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.detail-price {
+  font-family: 'Syne', sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+.detail-old { font-size: 1rem; text-decoration: line-through; color: var(--text-3); }
+.detail-off {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: white;
+  background: #dc2626;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+.detail-desc { color: var(--text-2); font-size: 0.9rem; line-height: 1.8; margin-bottom: 1.75rem; }
+
+.detail-specs {
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+.detail-specs h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 0.85rem;
+}
+.spec-row {
+  display: flex;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  font-size: 0.875rem;
+  border-bottom: 1px solid var(--border);
+}
+.spec-row:last-child { border-bottom: none; }
+.spec-key { color: var(--text-3); min-width: 110px; font-weight: 600; flex-shrink: 0; }
+.spec-val { color: var(--text); }
+
+.detail-actions { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.detail-actions .btn-primary { flex: 1; padding: 1rem; }
+.detail-actions .btn-outline { flex: 1; padding: 1rem; }
+.btn-outline.wishlisted { background: #fef2f2; color: #dc2626; border-color: #fca5a5; }
+
+.detail-assurance {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.detail-assurance span {
+  font-size: 0.8rem;
+  color: var(--text-2);
+  background: var(--surface-2);
+  padding: 0.3rem 0.7rem;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+}
+
+.products-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+.related-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.related-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+.related-img {
+  background: var(--surface-2);
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+.related-info { padding: 0.85rem; }
+.card-brand { font-size: 0.7rem; color: var(--text-3); text-transform: uppercase; font-weight: 700; margin-bottom: 0.15rem; }
+.card-name { font-size: 0.875rem; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; line-height: 1.4; }
+.price-now { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--primary); }
+
+@media (max-width: 900px) {
+  .detail-layout { grid-template-columns: 1fr; gap: 2rem; }
+}
+@media (max-width: 480px) {
+  .detail-actions { flex-direction: column; }
+}
