@@ -2,19 +2,53 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import './Account.css';
+import { loginUser, registerUser } from "../api/auth";
 
 export default function Account() {
   const { showToast } = useApp();
   const [tab, setTab] = useState('login');
   const [form, setForm] = useState({ email: '', password: '', name: '' });
 
-  const handleSubmit = () => {
-    if (!form.email || !form.password) {
-      showToast('Please fill in all fields');
-      return;
+  const handleSubmit = async () => {
+  if (!form.email || !form.password) {
+    showToast('Please fill in all fields');
+    return;
+  }
+
+  try {
+    if (tab === "login") {
+      const data = await loginUser({
+        email: form.email,
+        password: form.password,
+      });
+
+      // Save token
+      localStorage.setItem("token", data.token);
+
+      showToast("Signed in successfully! 👋");
+
+      console.log("LOGIN RESPONSE:", data);
+
+    } else {
+      const data = await registerUser({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
+
+      showToast("Account created! Welcome 🎉");
+
+      console.log("REGISTER RESPONSE:", data);
     }
-    showToast(tab === 'login' ? 'Signed in successfully! 👋' : 'Account created! Welcome 🎉');
-  };
+
+  } catch (err) {
+    console.error(err.response?.data || err.message);
+
+    showToast(
+      err.response?.data?.message || "Something went wrong ❌"
+    );
+  }
+};
 
   return (
     <div className="section">
