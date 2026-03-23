@@ -10,10 +10,10 @@ export default function Account() {
   const [form, setForm] = useState({ email: '', password: '', name: '' });
 
   const handleSubmit = async () => {
-  if (!form.email || !form.password) {
-    showToast('Please fill in all fields');
-    return;
-  }
+  if (!form.email || !form.password || (tab === 'register' && !form.name)) {
+  showToast('Please fill in all fields');
+  return;
+  } 
 
   try {
     if (tab === "login") {
@@ -30,12 +30,13 @@ export default function Account() {
       console.log("LOGIN RESPONSE:", data);
 
     } else {
-      const data = await registerUser({
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      });
-
+    const data = await registerUser({
+      name: form.name.trim(),       
+      email: form.email.trim(),     
+      password: form.password,      // don't trim passwords
+    });
+    console.log(form.email, form.password, form.name)
+  
       showToast("Account created! Welcome 🎉");
 
       console.log("REGISTER RESPONSE:", data);
