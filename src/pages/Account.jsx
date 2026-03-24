@@ -22,8 +22,15 @@ export default function Account() {
         password: form.password,
       });
 
+      const payload = data?.data || {};
+
       // Save token
-      localStorage.setItem("token", data.token);
+      if (payload.accessToken) {
+        localStorage.setItem("token", payload.accessToken);
+      }
+      if (payload.refreshToken) {
+        localStorage.setItem("refreshToken", payload.refreshToken);
+      }
 
       showToast("Signed in successfully! 👋");
 
@@ -35,6 +42,14 @@ export default function Account() {
       email: form.email.trim(),     
       password: form.password,      // don't trim passwords
     });
+
+    const payload = data?.data || {};
+    if (payload.accessToken) {
+      localStorage.setItem("token", payload.accessToken);
+    }
+    if (payload.refreshToken) {
+      localStorage.setItem("refreshToken", payload.refreshToken);
+    }
     console.log(form.email, form.password, form.name)
   
       showToast("Account created! Welcome 🎉");

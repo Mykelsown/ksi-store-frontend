@@ -27,6 +27,7 @@ export default function Navbar() {
     { to: '/brands', label: 'Brands' },
     { to: '/contact', label: 'Contact Us' },
     { to: '/about', label: 'About' },
+    { to: '/api-console', label: 'API Console' },
   ];
 
   return (

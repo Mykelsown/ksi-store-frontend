@@ -17,6 +17,7 @@ import Brands from './pages/Brands';
 import About from './pages/About';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
+import ApiConsole from './pages/ApiConsole';
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -46,6 +47,7 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/account" element={<Account />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/api-console" element={<ApiConsole />} />
               {/* 404 */}
               <Route
                 path="*"
