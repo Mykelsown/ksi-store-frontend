@@ -18,7 +18,6 @@ import About from './pages/About';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
 import ApiConsole from './pages/ApiConsole';
-import Checkout from './pages/Checkout';
 
 // Scroll to top on route change
 function ScrollToTop() {
