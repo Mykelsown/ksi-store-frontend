@@ -8,7 +8,8 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart, toggleWishlist, isWishlisted } = useApp();
-  const product = products.find(p => p.id === Number(id));
+  // Find product by UUID string (not Number)
+  const product = products.find(p => p.id === id);
 
   if (!product) {
     return (
@@ -23,9 +24,10 @@ export default function ProductDetail() {
     );
   }
 
-  const discount = product.oldPrice
-    ? Math.round((1 - product.price / product.oldPrice) * 100)
-    : null;
+  // Get product image
+  const imageUrl = product.images && product.images.length > 0
+    ? product.images[0]
+    : 'https://via.placeholder.com/400x400?text=No+Image';
 
   const related = products
     .filter(p => p.category === product.category && p.id !== product.id)
@@ -40,10 +42,14 @@ export default function ProductDetail() {
           <div className="detail-layout">
             {/* Image */}
             <div className="detail-image-wrap">
-              <div className="detail-image">{product.emoji}</div>
-              {product.badge && (
-                <span className={`card-badge ${product.badge}`} style={{ position: 'static', display: 'inline-block', marginTop: '1rem' }}>
-                  {product.badge === 'sale' ? '🔥 On Sale' : '✨ New'}
+              <img
+                src={imageUrl}
+                alt={product.name}
+                style={{ width: '100%', maxWidth: '500px', borderRadius: '12px' }}
+              />
+              {product.featured && (
+                <span className="card-badge new" style={{ position: 'static', display: 'inline-block', marginTop: '1rem' }}>
+                  ✨ Featured Product
                 </span>
               )}
             </div>
@@ -55,33 +61,38 @@ export default function ProductDetail() {
 
               <div className="detail-rating">
                 <span className="stars">
-                  {'★'.repeat(Math.floor(product.rating))}
-                  {'☆'.repeat(5 - Math.floor(product.rating))}
+                  {'★'.repeat(Math.floor(product.rating || 0))}
+                  {'☆'.repeat(5 - Math.floor(product.rating || 0))}
                 </span>
-                <span>{product.rating} · {product.reviews.toLocaleString()} reviews</span>
+                <span>{product.rating || 0} · {(product.numReviews || 0).toLocaleString()} reviews</span>
               </div>
 
               <div className="detail-price-row">
-                <span className="detail-price">₦{product.price.toLocaleString()}</span>
-                {product.oldPrice && (
-                  <>
-                    <span className="detail-old">₦{product.oldPrice.toLocaleString()}</span>
-                    <span className="detail-off">{discount}% off</span>
-                  </>
+                <span className="detail-price">₦{(product.price || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                {product.stock > 0 ? (
+                  <span style={{ color: 'green', fontSize: '1rem', fontWeight: '500' }}>
+                    ✓ {product.stock} in stock
+                  </span>
+                ) : (
+                  <span style={{ color: 'red', fontSize: '1rem', fontWeight: '500' }}>
+                    ✗ Out of stock
+                  </span>
                 )}
               </div>
 
-              <p className="detail-desc">{product.desc}</p>
+              <p className="detail-desc">{product.description}</p>
 
-              <div className="detail-specs">
-                <h3>Specifications</h3>
-                {Object.entries(product.specs).map(([k, v]) => (
-                  <div key={k} className="spec-row">
-                    <span className="spec-key">{k}</span>
-                    <span className="spec-val">{v}</span>
-                  </div>
-                ))}
-              </div>
+              {product.specs && (
+                <div className="detail-specs">
+                  <h3>Specifications</h3>
+                  {Object.entries(product.specs).map(([k, v]) => (
+                    <div key={k} className="spec-row">
+                      <span className="spec-key">{k}</span>
+                      <span className="spec-val">{v}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <div className="detail-actions">
                 <button className="btn-primary" onClick={() => addToCart(product)}>
@@ -111,20 +122,23 @@ export default function ProductDetail() {
           <div className="container">
             <h2 className="section-title" style={{ marginBottom: '1.25rem' }}>Related Products</h2>
             <div className="products-grid-4">
-              {related.map(p => (
-                <div
-                  key={p.id}
-                  className="related-card"
-                  onClick={() => navigate(`/product/${p.id}`)}
-                >
-                  <div className="related-img">{p.emoji}</div>
-                  <div className="related-info">
-                    <div className="card-brand">{p.brand}</div>
-                    <div className="card-name">{p.name}</div>
-                    <div className="price-now">₦{p.price.toLocaleString()}</div>
+              {related.map(p => {
+                const relatedImage = p.images && p.images.length > 0 ? p.images[0] : 'https://via.placeholder.com/200x200?text=No+Image';
+                return (
+                  <div
+                    key={p.id}
+                    className="related-card"
+                    onClick={() => navigate(`/product/${p.id}`)}
+                  >
+                    <img src={relatedImage} alt={p.name} style={{ width: '100%', height: '150px', objectFit: 'cover', borderRadius: '8px' }} />
+                    <div className="related-info">
+                      <div className="card-brand">{p.brand}</div>
+                      <div className="card-name">{p.name}</div>
+                      <div className="price-now">₦{(p.price || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

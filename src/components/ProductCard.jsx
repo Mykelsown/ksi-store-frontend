@@ -8,9 +8,13 @@ export default function ProductCard({ product }) {
   const navigate = useNavigate();
   const wishlisted = isWishlisted(product.id);
 
-  const discount = product.oldPrice
-    ? Math.round((1 - product.price / product.oldPrice) * 100)
-    : null;
+  // Get product image (first image or placeholder)
+  const imageUrl = product.images && product.images.length > 0
+    ? product.images[0]
+    : 'https://via.placeholder.com/300x300?text=No+Image';
+
+  // Show "New" badge for featured products, otherwise show if in stock
+  const showBadge = product.featured ? 'new' : null;
 
   return (
     <div
@@ -19,9 +23,9 @@ export default function ProductCard({ product }) {
     >
       {/* Image Area */}
       <div className="card-image">
-        {product.badge && (
-          <span className={`card-badge ${product.badge}`}>
-            {product.badge === "sale" ? "Sale" : "New"}
+        {showBadge && (
+          <span className={`card-badge ${showBadge}`}>
+            {showBadge === 'new' ? 'Featured' : 'New'}
           </span>
         )}
         <button
@@ -34,7 +38,12 @@ export default function ProductCard({ product }) {
         >
           {wishlisted ? "❤️" : "🤍"}
         </button>
-        <span className="card-emoji">{product.emoji}</span>
+        <img
+          src={imageUrl}
+          alt={product.name}
+          className="product-image"
+          style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+        />
       </div>
 
       {/* Body */}
@@ -43,22 +52,23 @@ export default function ProductCard({ product }) {
         <div className="card-name">{product.name}</div>
         <div className="card-rating">
           <span className="stars">
-            {"★".repeat(Math.floor(product.rating))}
-            {"☆".repeat(5 - Math.floor(product.rating))}
+            {"★".repeat(Math.floor(product.rating || 0))}
+            {"☆".repeat(5 - Math.floor(product.rating || 0))}
           </span>
           <span className="review-count">
-            {product.rating} ({product.reviews.toLocaleString()})
+            {product.rating || 0} ({(product.numReviews || 0).toLocaleString()})
           </span>
         </div>
         <div className="card-price">
-          <span className="price-now">₦{product.price.toLocaleString()}</span>
-          {product.oldPrice && (
-            <>
-              <span className="price-old">
-                ₦{product.oldPrice.toLocaleString()}
-              </span>
-              <span className="price-off">{discount}% off</span>
-            </>
+          <span className="price-now">₦{(product.price || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+          {product.stock > 0 ? (
+            <span className="stock-status" style={{ color: 'green', fontSize: '0.85rem' }}>
+              {product.stock} in stock
+            </span>
+          ) : (
+            <span className="stock-status" style={{ color: 'red', fontSize: '0.85rem' }}>
+              Out of stock
+            </span>
           )}
         </div>
       </div>

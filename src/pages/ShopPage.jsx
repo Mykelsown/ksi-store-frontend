@@ -5,17 +5,17 @@ import ProductCard from '../components/ProductCard';
 import './ShopPage.css';
 
 const heroConfig = {
-  phones: {
+  Smartphones: {
     title: '📱 Smartphones',
     sub: 'Latest phones from top brands',
     bg: 'linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%)',
   },
-  laptops: {
+  Laptops: {
     title: '💻 Laptops & Computers',
     sub: 'Power and performance for every need',
     bg: 'linear-gradient(135deg, #1c1917 0%, #292524 100%)',
   },
-  accessories: {
+  Accessories: {
     title: '🎧 Accessories',
     sub: 'Headphones, watches, cables and more',
     bg: 'linear-gradient(135deg, #4c1d95 0%, #6d28d9 100%)',
@@ -28,9 +28,9 @@ const heroConfig = {
 };
 
 const brandsByCategory = {
-  phones: ['All', 'Apple', 'Samsung', 'Xiaomi', 'Google', 'Tecno', 'Infinix'],
-  laptops: ['All', 'Apple', 'Dell', 'HP', 'Lenovo', 'Asus'],
-  accessories: ['All', 'Sony', 'Apple', 'Samsung', 'Anker', 'Logitech'],
+  Smartphones: ['All', 'Apple', 'Samsung', 'Xiaomi', 'Google', 'Tecno', 'Infinix'],
+  Laptops: ['All', 'Apple', 'Dell', 'HP', 'Lenovo', 'Asus'],
+  Accessories: ['All', 'Sony', 'Apple', 'Samsung', 'Anker', 'Logitech'],
   deals: ['All'],
 };
 
@@ -38,12 +38,12 @@ export default function ShopPage({ category }) {
   const config = heroConfig[category];
   const [selectedBrand, setSelectedBrand] = useState('All');
   const [sortBy, setSortBy] = useState('popular');
-  const [maxPrice, setMaxPrice] = useState(2000000);
+  const [maxPrice, setMaxPrice] = useState(2000);
 
   const filtered = useMemo(() => {
     let list =
       category === 'deals'
-        ? products.filter(p => p.badge === 'sale')
+        ? products.filter(p => p.featured) // Featured products as deals
         : products.filter(p => p.category === category);
 
     if (selectedBrand !== 'All') list = list.filter(p => p.brand === selectedBrand);
@@ -96,20 +96,20 @@ export default function ShopPage({ category }) {
                 <label className="filter-label">Max Price</label>
                 <input
                   type="range"
-                  min="10000"
-                  max="2000000"
-                  step="10000"
+                  min="10"
+                  max="2000"
+                  step="10"
                   value={maxPrice}
                   onChange={e => setMaxPrice(Number(e.target.value))}
                   className="price-range"
                 />
-                <span className="price-label">Up to ₦{maxPrice.toLocaleString()}</span>
+                <span className="price-label">Up to ₦{maxPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
               </div>
 
               <button
                 className="btn-primary"
                 style={{ width: '100%' }}
-                onClick={() => { setSelectedBrand('All'); setMaxPrice(2000000); setSortBy('popular'); }}
+                onClick={() => { setSelectedBrand('All'); setMaxPrice(2000); setSortBy('popular'); }}
               >
                 Reset Filters
               </button>

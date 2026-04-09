@@ -35,12 +35,13 @@ export default function App() {
           <main className="app-main">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/phones" element={<ShopPage category="phones" />} />
-              <Route path="/laptops" element={<ShopPage category="laptops" />} />
-              <Route path="/accessories" element={<ShopPage category="accessories" />} />
+              <Route path="/phones" element={<ShopPage category="Smartphones" />} />
+              <Route path="/laptops" element={<ShopPage category="Laptops" />} />
+              <Route path="/accessories" element={<ShopPage category="Accessories" />} />
               <Route path="/deals" element={<ShopPage category="deals" />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/search" element={<Search />} />
               <Route path="/brands" element={<Brands />} />
