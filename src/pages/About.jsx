@@ -1,4 +1,13 @@
 // src/pages/About.jsx
+import {
+  Battery,
+  Headphones,
+  Laptop,
+  Mouse,
+  Smartphone,
+  UserRound,
+  Watch,
+} from "lucide-react";
 import './About.css';
 
 export default function About() {
@@ -10,10 +19,10 @@ export default function About() {
   ];
 
   const team = [
-    { name: 'Kola Adekunle', role: 'Founder & CEO', emoji: '👨‍💼' },
-    { name: 'Simi Okafor', role: 'Head of Operations', emoji: '👩‍💼' },
-    { name: 'Emeka Nwosu', role: 'Head of Technology', emoji: '👨‍💻' },
-    { name: 'Yemi Adeyemi', role: 'Customer Experience Lead', emoji: '👩‍💻' },
+    { name: 'Kola Adekunle', role: 'Founder & CEO' },
+    { name: 'Simi Okafor', role: 'Head of Operations' },
+    { name: 'Emeka Nwosu', role: 'Head of Technology' },
+    { name: 'Yemi Adeyemi', role: 'Customer Experience Lead' },
   ];
 
   return (
@@ -60,8 +69,8 @@ export default function About() {
             </div>
             <div className="about-visual">
               <div className="about-emoji-grid">
-                <span>📱</span><span>💻</span><span>🎧</span>
-                <span>⌚</span><span>🔋</span><span>🖱️</span>
+                <span><Smartphone size={20} /></span><span><Laptop size={20} /></span><span><Headphones size={20} /></span>
+                <span><Watch size={20} /></span><span><Battery size={20} /></span><span><Mouse size={20} /></span>
               </div>
             </div>
           </div>
@@ -73,7 +82,7 @@ export default function About() {
           <div className="team-grid">
             {team.map(m => (
               <div key={m.name} className="team-card">
-                <div className="team-avatar">{m.emoji}</div>
+                <div className="team-avatar"><UserRound size={20} /></div>
                 <h3>{m.name}</h3>
                 <p>{m.role}</p>
               </div>

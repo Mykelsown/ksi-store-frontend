@@ -1,6 +1,7 @@
 // src/components/ProductCard.jsx
 import { useNavigate } from "react-router-dom";
-import { useApp } from "../context/AppContext";
+import { Heart, ShoppingCart } from "lucide-react";
+import { useApp } from "../context/useApp";
 import "./ProductCard.css";
 
 export default function ProductCard({ product }) {
@@ -9,12 +10,13 @@ export default function ProductCard({ product }) {
   const wishlisted = isWishlisted(product.id);
 
   // Get product image (first image or placeholder)
-  const imageUrl = product.images && product.images.length > 0
-    ? product.images[0]
-    : 'https://via.placeholder.com/300x300?text=No+Image';
+  const imageUrl =
+    product.images && product.images.length > 0
+      ? product.images[0]
+      : "https://via.placeholder.com/300x300?text=No+Image";
 
   // Show "New" badge for featured products, otherwise show if in stock
-  const showBadge = product.featured ? 'new' : null;
+  const showBadge = product.featured ? "new" : null;
 
   return (
     <div
@@ -25,7 +27,7 @@ export default function ProductCard({ product }) {
       <div className="card-image">
         {showBadge && (
           <span className={`card-badge ${showBadge}`}>
-            {showBadge === 'new' ? 'Featured' : 'New'}
+            {showBadge === "new" ? "Featured" : "New"}
           </span>
         )}
         <button
@@ -36,13 +38,13 @@ export default function ProductCard({ product }) {
           }}
           aria-label="Toggle wishlist"
         >
-          {wishlisted ? "❤️" : "🤍"}
+          <Heart size={18} fill={wishlisted ? "currentColor" : "none"} />
         </button>
         <img
           src={imageUrl}
           alt={product.name}
           className="product-image"
-          style={{ width: '100%', height: '200px', objectFit: 'cover' }}
+          style={{ width: "100%", height: "200px", objectFit: "cover" }}
         />
       </div>
 
@@ -60,13 +62,25 @@ export default function ProductCard({ product }) {
           </span>
         </div>
         <div className="card-price">
-          <span className="price-now">₦{(product.price || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+          <span className="price-now">
+            ₦
+            {(product.price || 0).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </span>
           {product.stock > 0 ? (
-            <span className="stock-status" style={{ color: 'green', fontSize: '0.85rem' }}>
+            <span
+              className="stock-status"
+              style={{ color: "green", fontSize: "0.85rem" }}
+            >
               {product.stock} in stock
             </span>
           ) : (
-            <span className="stock-status" style={{ color: 'red', fontSize: '0.85rem' }}>
+            <span
+              className="stock-status"
+              style={{ color: "red", fontSize: "0.85rem" }}
+            >
               Out of stock
             </span>
           )}
@@ -82,7 +96,7 @@ export default function ProductCard({ product }) {
             addToCart(product);
           }}
         >
-          🛒 Add to Cart
+          <ShoppingCart size={16} /> Add to Cart
         </button>
       </div>
     </div>

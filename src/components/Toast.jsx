@@ -1,5 +1,5 @@
 // src/components/Toast.jsx
-import { useApp } from "../context/AppContext";
+import { useApp } from "../context/useApp";
 import "./Toast.css";
 
 export default function Toast() {

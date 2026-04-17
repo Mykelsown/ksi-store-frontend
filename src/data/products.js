@@ -303,20 +303,20 @@ export const products = [
 ];
 
 export const brands = [
-  { name: 'Apple', emoji: '🍎', category: 'Smartphones', desc: 'iPhone, iPad, MacBook' },
-  { name: 'Samsung', emoji: '📲', category: 'Smartphones', desc: 'Galaxy S, A series, tablets' },
-  { name: 'Dell', emoji: '🖥️', category: 'Laptops', desc: 'XPS, Inspiron, Latitude' },
-  { name: 'HP', emoji: '💼', category: 'Laptops', desc: 'Spectre, Envy, Pavilion' },
-  { name: 'Lenovo', emoji: '🔵', category: 'Laptops', desc: 'ThinkPad, IdeaPad, Legion' },
-  { name: 'Sony', emoji: '🎵', category: 'Accessories', desc: 'Headphones, cameras, TVs' },
-  { name: 'Xiaomi', emoji: '📱', category: 'Smartphones', desc: 'Mi series, Redmi, Poco' },
-  { name: 'Asus', emoji: '🎮', category: 'Laptops', desc: 'ROG, ZenBook, VivoBook' },
+  { name: 'Apple', icon: 'apple', category: 'Smartphones', desc: 'iPhone, iPad, MacBook' },
+  { name: 'Samsung', icon: 'smartphone', category: 'Smartphones', desc: 'Galaxy S, A series, tablets' },
+  { name: 'Dell', icon: 'monitor', category: 'Laptops', desc: 'XPS, Inspiron, Latitude' },
+  { name: 'HP', icon: 'briefcase', category: 'Laptops', desc: 'Spectre, Envy, Pavilion' },
+  { name: 'Lenovo', icon: 'circle', category: 'Laptops', desc: 'ThinkPad, IdeaPad, Legion' },
+  { name: 'Sony', icon: 'music', category: 'Accessories', desc: 'Headphones, cameras, TVs' },
+  { name: 'Xiaomi', icon: 'smartphone', category: 'Smartphones', desc: 'Mi series, Redmi, Poco' },
+  { name: 'Asus', icon: 'gamepad', category: 'Laptops', desc: 'ROG, ZenBook, VivoBook' },
 ];
 
 export const categories = [
-  { label: '📱 Smartphones', value: 'Smartphones' },
-  { label: '💻 Laptops', value: 'Laptops' },
-  { label: '🎧 Accessories', value: 'Accessories' },
+  { label: 'Smartphones', value: 'Smartphones' },
+  { label: 'Laptops', value: 'Laptops' },
+  { label: 'Accessories', value: 'Accessories' },
 ];
 
 export const faqs = [

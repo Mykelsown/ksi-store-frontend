@@ -1,0 +1,126 @@
+.dashboard-page {
+  min-height: 100%;
+}
+
+.dashboard-hero {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-hero h1 {
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-subtitle {
+  color: var(--text-2);
+  max-width: 60ch;
+}
+
+.dashboard-chip-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.dashboard-chip {
+  padding: 1rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  min-width: 120px;
+}
+
+.dashboard-chip span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  margin-bottom: 0.35rem;
+}
+
+.dashboard-chip strong {
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.dashboard-card {
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.dashboard-card h2 {
+  margin-bottom: 0.75rem;
+}
+
+.dashboard-card p {
+  color: var(--text-2);
+  margin-bottom: 0.75rem;
+}
+
+.dashboard-card--accent {
+  background: linear-gradient(
+    135deg,
+    var(--primary-ultra) 0%,
+    var(--surface) 70%
+  );
+}
+
+.dashboard-btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.dashboard-actions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.dashboard-action-link {
+  display: block;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.dashboard-action-link:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .dashboard-grid,
+  .dashboard-chip-row {
+    grid-template-columns: 1fr;
+  }
+}

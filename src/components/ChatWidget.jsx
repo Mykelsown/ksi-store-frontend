@@ -1,6 +1,19 @@
 // src/components/ChatWidget.jsx
-import { useState, useRef, useEffect } from 'react';
-import './ChatWidget.css';
+import { useState, useRef, useEffect } from "react";
+import {
+  Bot,
+  Box,
+  MessageCircle,
+  RotateCcw,
+  Send,
+  Smartphone,
+  Trash2,
+  Truck,
+  User,
+  X,
+} from "lucide-react";
+import { chatWithSupport } from "../api/support";
+import "./ChatWidget.css";
 
 const SYSTEM_PROMPT = `You are KSI Assistant, the friendly and knowledgeable AI customer care agent for KSI Gadget — Nigeria's #1 online gadget store.
 
@@ -14,13 +27,13 @@ Store info:
 - Contact: support@ksigadget.ng | +234 800 KSI GADGET | 12 Broad Street, Lagos Island, Lagos
 - Operating hours: Mon–Sat 8am–8pm
 
-Be warm, concise, and genuinely helpful. Answer in 2–4 sentences unless more detail is needed. Use emojis lightly. If you don't know something specific, offer to escalate to a human agent.`;
+Be warm, concise, and genuinely helpful. Answer in 2–4 sentences unless more detail is needed. If you don't know something specific, offer to escalate to a human agent.`;
 
 const SUGGESTIONS = [
-  { icon: '📦', text: 'Track my order' },
-  { icon: '📱', text: 'Best phones under ₦300k' },
-  { icon: '↩️', text: 'Return policy' },
-  { icon: '🚚', text: 'Delivery info' },
+  { icon: Box, text: "Track my order" },
+  { icon: Smartphone, text: "Best phones under ₦300k" },
+  { icon: RotateCcw, text: "Return policy" },
+  { icon: Truck, text: "Delivery info" },
 ];
 
 export default function ChatWidget() {
@@ -28,11 +41,12 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      role: 'assistant',
-      content: "Hi! 👋 I'm KSI Assistant, your 24/7 AI customer care agent.\n\nI can help you with product info, orders, delivery, returns, and more. What can I help you with today?",
+      role: "assistant",
+      content:
+        "Hi! I'm KSI Assistant, your 24/7 AI customer care agent.\n\nI can help you with product info, orders, delivery, returns, and more. What can I help you with today?",
     },
   ]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [history, setHistory] = useState([]);
@@ -40,7 +54,7 @@ export default function ChatWidget() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
   useEffect(() => {
@@ -51,37 +65,43 @@ export default function ChatWidget() {
     const userText = (text || input).trim();
     if (!userText || loading) return;
 
-    setInput('');
+    setInput("");
     setShowSuggestions(false);
-    setMessages(prev => [...prev, { id: Date.now(), role: 'user', content: userText }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now(), role: "user", content: userText },
+    ]);
     setLoading(true);
 
-    const newHistory = [...history, { role: 'user', content: userText }];
+    const newHistory = [...history, { role: "user", content: userText }];
     setHistory(newHistory);
 
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: SYSTEM_PROMPT,
-          messages: newHistory,
-        }),
+      const res = await chatWithSupport({
+        message: userText,
+        history,
       });
-      const data = await res.json();
-      const reply = data.content?.[0]?.text || "I'm having trouble right now. Please email support@ksigadget.ng 📧";
-      const updatedHistory = [...newHistory, { role: 'assistant', content: reply }];
+      const payload = res?.data || res;
+      const reply =
+        payload?.reply ||
+        "I'm having trouble right now. Please email support@ksigadget.ng.";
+      const updatedHistory = [
+        ...newHistory,
+        { role: "assistant", content: reply },
+      ];
       setHistory(updatedHistory);
-      setMessages(prev => [...prev, { id: Date.now() + 1, role: 'assistant', content: reply }]);
+      setMessages((prev) => [
+        ...prev,
+        { id: Date.now() + 1, role: "assistant", content: reply },
+      ]);
     } catch {
-      setMessages(prev => [
+      setMessages((prev) => [
         ...prev,
         {
           id: Date.now() + 1,
-          role: 'assistant',
-          content: "I'm having trouble connecting right now. Please email us at support@ksigadget.ng or call +234 800 KSI GADGET 📞",
+          role: "assistant",
+          content:
+            "I'm having trouble connecting right now. Please email us at support@ksigadget.ng or call +234 800 KSI GADGET.",
         },
       ]);
     } finally {
@@ -90,11 +110,13 @@ export default function ChatWidget() {
   };
 
   const clearChat = () => {
-    setMessages([{
-      id: Date.now(),
-      role: 'assistant',
-      content: 'Chat cleared! How can I help you? 😊',
-    }]);
+    setMessages([
+      {
+        id: Date.now(),
+        role: "assistant",
+        content: "Chat cleared. How can I help you?",
+      },
+    ]);
     setHistory([]);
     setShowSuggestions(true);
   };
@@ -104,17 +126,17 @@ export default function ChatWidget() {
       {/* Floating Button */}
       {!open && (
         <button className="chat-bubble" onClick={() => setOpen(true)}>
-          <span className="chat-bubble-icon">💬</span>
+          <span className="chat-bubble-icon"><MessageCircle size={18} /></span>
           <span className="chat-label">AI Support</span>
         </button>
       )}
 
       {/* Chat Window */}
-      <div className={`chat-window ${open ? 'open' : ''}`}>
+      <div className={`chat-window ${open ? "open" : ""}`}>
         {/* Header */}
         <div className="chat-header">
           <div className="chat-header-left">
-            <div className="chat-avatar">🤖</div>
+            <div className="chat-avatar"><Bot size={18} /></div>
             <div>
               <div className="chat-name">KSI Assistant</div>
               <div className="chat-status">
@@ -123,19 +145,36 @@ export default function ChatWidget() {
             </div>
           </div>
           <div className="chat-header-actions">
-            <button className="chat-action-btn" onClick={clearChat} title="Clear chat">🗑️</button>
-            <button className="chat-action-btn" onClick={() => setOpen(false)} title="Close">✕</button>
+            <button
+              className="chat-action-btn"
+              onClick={clearChat}
+              title="Clear chat"
+            >
+              <Trash2 size={16} />
+            </button>
+            <button
+              className="chat-action-btn"
+              onClick={() => setOpen(false)}
+              title="Close"
+            >
+              <X size={16} />
+            </button>
           </div>
         </div>
 
         {/* Messages */}
         <div className="chat-messages">
-          {messages.map(msg => (
+          {messages.map((msg) => (
             <div key={msg.id} className={`chat-msg ${msg.role}`}>
-              <div className="msg-avatar">{msg.role === 'assistant' ? '🤖' : '👤'}</div>
+              <div className="msg-avatar">
+                {msg.role === "assistant" ? <Bot size={16} /> : <User size={16} />}
+              </div>
               <div className="msg-bubble">
-                {msg.content.split('\n').map((line, i) => (
-                  <span key={i}>{line}{i < msg.content.split('\n').length - 1 && <br />}</span>
+                {msg.content.split("\n").map((line, i) => (
+                  <span key={i}>
+                    {line}
+                    {i < msg.content.split("\n").length - 1 && <br />}
+                  </span>
                 ))}
               </div>
             </div>
@@ -144,13 +183,14 @@ export default function ChatWidget() {
           {/* Suggestions */}
           {showSuggestions && (
             <div className="chat-suggestions">
-              {SUGGESTIONS.map(s => (
+              {SUGGESTIONS.map((s) => (
+                // Suggestion items use icon components for consistent UI.
                 <button
                   key={s.text}
                   onClick={() => sendMessage(s.text)}
                   disabled={loading}
                 >
-                  {s.icon} {s.text}
+                  <s.icon size={14} /> {s.text}
                 </button>
               ))}
             </div>
@@ -159,10 +199,12 @@ export default function ChatWidget() {
           {/* Typing indicator */}
           {loading && (
             <div className="chat-msg assistant">
-              <div className="msg-avatar">🤖</div>
+              <div className="msg-avatar"><Bot size={16} /></div>
               <div className="msg-bubble typing">
                 <div className="typing-dots">
-                  <span /><span /><span />
+                  <span />
+                  <span />
+                  <span />
                 </div>
               </div>
             </div>
@@ -179,8 +221,8 @@ export default function ChatWidget() {
             className="chat-input"
             placeholder="Type your message…"
             value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && sendMessage()}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             disabled={loading}
           />
           <button
@@ -188,10 +230,7 @@ export default function ChatWidget() {
             onClick={() => sendMessage()}
             disabled={loading || !input.trim()}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <line x1="22" y1="2" x2="11" y2="13" />
-              <polygon points="22 2 15 22 11 13 2 9 22 2" />
-            </svg>
+            <Send size={18} />
           </button>
         </div>
       </div>

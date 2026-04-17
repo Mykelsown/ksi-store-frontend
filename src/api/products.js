@@ -1,7 +1,19 @@
 import api from "./client";
 
 export const getProducts = async (params = {}) => {
-  const res = await api.get("/products", { params });
+  const normalizedParams = { ...params };
+
+  if (normalizedParams.limit !== undefined) {
+    const parsedLimit = Number(normalizedParams.limit);
+
+    if (Number.isFinite(parsedLimit)) {
+      normalizedParams.limit = Math.min(100, Math.max(1, Math.trunc(parsedLimit)));
+    } else {
+      delete normalizedParams.limit;
+    }
+  }
+
+  const res = await api.get("/products", { params: normalizedParams });
   return res.data;
 };
 
