@@ -7,7 +7,10 @@ export const getProducts = async (params = {}) => {
     const parsedLimit = Number(normalizedParams.limit);
 
     if (Number.isFinite(parsedLimit)) {
-      normalizedParams.limit = Math.min(100, Math.max(1, Math.trunc(parsedLimit)));
+      normalizedParams.limit = Math.min(
+        100,
+        Math.max(1, Math.trunc(parsedLimit)),
+      );
     } else {
       delete normalizedParams.limit;
     }

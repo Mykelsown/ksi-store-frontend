@@ -67,7 +67,9 @@ export default function Search() {
           </div>
         ) : (
           <div className="empty-state">
-            <div className="empty-icon"><SearchX size={32} /></div>
+            <div className="empty-icon">
+              <SearchX size={32} />
+            </div>
             <h3>No results found</h3>
             <p>
               Try searching for &quot;iPhone&quot;, &quot;laptop&quot;, or

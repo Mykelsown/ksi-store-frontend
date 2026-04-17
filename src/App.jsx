@@ -71,7 +71,9 @@ export default function App() {
                 element={
                   <div className="section">
                     <div className="container empty-state">
-                      <div className="empty-icon"><AlertCircle size={32} /></div>
+                      <div className="empty-icon">
+                        <AlertCircle size={32} />
+                      </div>
                       <h3>Page Not Found</h3>
                       <p>The page you're looking for doesn't exist.</p>
                       <a

@@ -126,7 +126,9 @@ export default function ChatWidget() {
       {/* Floating Button */}
       {!open && (
         <button className="chat-bubble" onClick={() => setOpen(true)}>
-          <span className="chat-bubble-icon"><MessageCircle size={18} /></span>
+          <span className="chat-bubble-icon">
+            <MessageCircle size={18} />
+          </span>
           <span className="chat-label">AI Support</span>
         </button>
       )}
@@ -136,7 +138,9 @@ export default function ChatWidget() {
         {/* Header */}
         <div className="chat-header">
           <div className="chat-header-left">
-            <div className="chat-avatar"><Bot size={18} /></div>
+            <div className="chat-avatar">
+              <Bot size={18} />
+            </div>
             <div>
               <div className="chat-name">KSI Assistant</div>
               <div className="chat-status">
@@ -167,7 +171,11 @@ export default function ChatWidget() {
           {messages.map((msg) => (
             <div key={msg.id} className={`chat-msg ${msg.role}`}>
               <div className="msg-avatar">
-                {msg.role === "assistant" ? <Bot size={16} /> : <User size={16} />}
+                {msg.role === "assistant" ? (
+                  <Bot size={16} />
+                ) : (
+                  <User size={16} />
+                )}
               </div>
               <div className="msg-bubble">
                 {msg.content.split("\n").map((line, i) => (
@@ -199,7 +207,9 @@ export default function ChatWidget() {
           {/* Typing indicator */}
           {loading && (
             <div className="chat-msg assistant">
-              <div className="msg-avatar"><Bot size={16} /></div>
+              <div className="msg-avatar">
+                <Bot size={16} />
+              </div>
               <div className="msg-bubble typing">
                 <div className="typing-dots">
                   <span />

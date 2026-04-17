@@ -120,7 +120,9 @@ export default function Home() {
             >
               <div className="promo-label">Up to 30% off</div>
               <div className="promo-title">Latest iPhones</div>
-              <div className="promo-emoji"><Smartphone size={36} /></div>
+              <div className="promo-emoji">
+                <Smartphone size={36} />
+              </div>
             </div>
             <div
               className="promo-card promo-dark"
@@ -128,7 +130,9 @@ export default function Home() {
             >
               <div className="promo-label">Best Sellers</div>
               <div className="promo-title">MacBook Pro M4</div>
-              <div className="promo-emoji"><Laptop size={36} /></div>
+              <div className="promo-emoji">
+                <Laptop size={36} />
+              </div>
             </div>
             <div
               className="promo-card promo-accent"
@@ -136,7 +140,9 @@ export default function Home() {
             >
               <div className="promo-label">Flash Sale</div>
               <div className="promo-title">Accessories</div>
-              <div className="promo-emoji"><Headphones size={36} /></div>
+              <div className="promo-emoji">
+                <Headphones size={36} />
+              </div>
             </div>
           </div>
         </div>
@@ -247,7 +253,9 @@ export default function Home() {
               },
             ].map((w) => (
               <div key={w.title} className="why-card">
-                <div className="why-icon"><w.icon size={20} /></div>
+                <div className="why-icon">
+                  <w.icon size={20} />
+                </div>
                 <h3>{w.title}</h3>
                 <p>{w.desc}</p>
               </div>

@@ -148,7 +148,9 @@ export default function Account() {
     <div className="section">
       <div className="container account-container">
         <div className="account-card">
-          <div className="account-avatar"><UserRound size={44} /></div>
+          <div className="account-avatar">
+            <UserRound size={44} />
+          </div>
           <div className="account-tabs">
             <button
               type="button"

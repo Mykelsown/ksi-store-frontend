@@ -1,7 +1,7 @@
 // src/components/Footer.jsx
-import { Link } from 'react-router-dom';
-import { Building2, CreditCard, Globe2, Smartphone, Zap } from 'lucide-react';
-import './Footer.css';
+import { Link } from "react-router-dom";
+import { Building2, CreditCard, Globe2, Smartphone, Zap } from "lucide-react";
+import "./Footer.css";
 
 export default function Footer() {
   return (
@@ -10,14 +10,25 @@ export default function Footer() {
         <div className="footer-grid">
           <div className="footer-col brand-col">
             <Link to="/" className="footer-logo">
-              <span className="logo-icon"><Zap size={16} /></span>
+              <span className="logo-icon">
+                <Zap size={16} />
+              </span>
               <span className="logo-text">KSI Gadget</span>
             </Link>
-            <p>Nigeria's #1 gadget store. Quality electronics, fast delivery, guaranteed authenticity.</p>
+            <p>
+              Nigeria's #1 gadget store. Quality electronics, fast delivery,
+              guaranteed authenticity.
+            </p>
             <div className="social-links">
-              <a href="#" aria-label="Social"><Globe2 size={16} /></a>
-              <a href="#" aria-label="Social"><Globe2 size={16} /></a>
-              <a href="#" aria-label="Social"><Globe2 size={16} /></a>
+              <a href="#" aria-label="Social">
+                <Globe2 size={16} />
+              </a>
+              <a href="#" aria-label="Social">
+                <Globe2 size={16} />
+              </a>
+              <a href="#" aria-label="Social">
+                <Globe2 size={16} />
+              </a>
             </div>
           </div>
 
@@ -47,9 +58,13 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} KSI Gadget Nigeria. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} KSI Gadget Nigeria. All rights
+            reserved.
+          </p>
           <div className="payment-icons">
-            <CreditCard size={16} /> <Building2 size={16} /> <Smartphone size={16} />
+            <CreditCard size={16} /> <Building2 size={16} />{" "}
+            <Smartphone size={16} />
           </div>
         </div>
       </div>

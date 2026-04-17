@@ -56,7 +56,9 @@ export default function Navbar() {
         <div className="container nav-top-inner">
           {/* Logo */}
           <Link to="/" className="logo">
-            <span className="logo-icon"><Zap size={18} /></span>
+            <span className="logo-icon">
+              <Zap size={18} />
+            </span>
             <span className="logo-text">KSI Gadget</span>
           </Link>
 

@@ -185,7 +185,9 @@ export default function ShopPage({ category }) {
                 </div>
               ) : (
                 <div className="empty-state">
-                  <div className="empty-icon"><SearchX size={32} /></div>
+                  <div className="empty-icon">
+                    <SearchX size={32} />
+                  </div>
                   <h3>No products found</h3>
                   <p>Try adjusting your filters</p>
                 </div>

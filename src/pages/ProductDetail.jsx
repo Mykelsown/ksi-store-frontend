@@ -1,7 +1,13 @@
 // src/pages/ProductDetail.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AlertCircle, CheckCircle2, Heart, ShoppingCart, Truck } from "lucide-react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Heart,
+  ShoppingCart,
+  Truck,
+} from "lucide-react";
 import { useApp } from "../context/useApp";
 import { getProductById, getProducts } from "../api/products";
 import "./ProductDetail.css";
@@ -60,7 +66,9 @@ export default function ProductDetail() {
     return (
       <div className="section">
         <div className="container empty-state">
-          <div className="empty-icon"><AlertCircle size={32} /></div>
+          <div className="empty-icon">
+            <AlertCircle size={32} />
+          </div>
           <h3>Product not found</h3>
           <p>This product doesn't exist or has been removed.</p>
           <button className="btn-primary" onClick={() => navigate("/")}>
@@ -192,9 +200,15 @@ export default function ProductDetail() {
               </div>
 
               <div className="detail-assurance">
-                <span><Truck size={14} /> Fast delivery</span>
-                <span><CheckCircle2 size={14} /> Genuine product</span>
-                <span><CheckCircle2 size={14} /> 15-day returns</span>
+                <span>
+                  <Truck size={14} /> Fast delivery
+                </span>
+                <span>
+                  <CheckCircle2 size={14} /> Genuine product
+                </span>
+                <span>
+                  <CheckCircle2 size={14} /> 15-day returns
+                </span>
               </div>
             </div>
           </div>

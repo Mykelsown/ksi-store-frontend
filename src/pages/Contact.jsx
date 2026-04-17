@@ -76,7 +76,9 @@ export default function Contact() {
         }}
       >
         <div className="container">
-          <h1><Mail size={28} /> Contact Us</h1>
+          <h1>
+            <Mail size={28} /> Contact Us
+          </h1>
           <p>We're always here to help. Reach out anytime!</p>
         </div>
       </div>
@@ -160,7 +162,9 @@ export default function Contact() {
             <div className="contact-info">
               {infoCards.map((card) => (
                 <div key={card.title} className="info-card">
-                  <div className="info-icon"><card.icon size={18} /></div>
+                  <div className="info-icon">
+                    <card.icon size={18} />
+                  </div>
                   <div>
                     <h3>{card.title}</h3>
                     {card.lines.map((l, i) => (

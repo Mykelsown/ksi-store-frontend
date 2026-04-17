@@ -13,7 +13,9 @@ export default function Cart() {
     return (
       <div className="section">
         <div className="container empty-state">
-          <div className="empty-icon"><ShoppingCart size={32} /></div>
+          <div className="empty-icon">
+            <ShoppingCart size={32} />
+          </div>
           <h3>Your cart is empty</h3>
           <p>Add some gadgets to get started!</p>
           <button className="btn-primary" onClick={() => navigate("/")}>
@@ -48,7 +50,9 @@ export default function Cart() {
           <div className="cart-items">
             {cart.map((item) => (
               <div key={item.id} className="cart-item">
-                <div className="cart-item-img"><Package size={20} /></div>
+                <div className="cart-item-img">
+                  <Package size={20} />
+                </div>
                 <div className="cart-item-info">
                   <div className="cart-item-brand">{item.brand}</div>
                   <div className="cart-item-name">{item.name}</div>

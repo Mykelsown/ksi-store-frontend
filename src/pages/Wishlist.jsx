@@ -19,7 +19,9 @@ export default function Wishlist() {
         </h1>
         {wishlist.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon"><SearchCheck size={32} /></div>
+            <div className="empty-icon">
+              <SearchCheck size={32} />
+            </div>
             <h3>No saved items yet</h3>
             <p>Tap the heart icon on any product to save it here.</p>
             <button className="btn-primary" onClick={() => navigate("/")}>
