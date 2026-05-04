@@ -137,13 +137,12 @@ export default function ProductDetail() {
 
               <div className="detail-price-row">
                 <span className="detail-price">
-                  ₦
-                  {(product.price || 0).toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
+                  ₦{(product.price || 0).toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
                   })}
                 </span>
-                {product.stock > 0 ? (
+                {product.stock && product.stock > 0 ? (
                   <span
                     style={{
                       color: "green",

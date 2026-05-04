@@ -177,18 +177,20 @@ export default function Checkout() {
                     <div className="item-left">
                       <div className="item-thumb">
                         {item.image ? (
-                          <img src={item.image} alt={item.name} />
+                          <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '4px' }} />
                         ) : (
                           item.emoji
                         )}
                       </div>
                       <div className="item-meta">
                         <div className="item-name">{item.name}</div>
+                        <div className="item-brand" style={{ fontSize: '0.85rem', color: '#666' }}>{item.brand}</div>
                         <div className="item-qty">Qty: {item.qty}</div>
+                        <div style={{ fontSize: '0.85rem', color: '#666' }}>₦{item.price.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
                       </div>
                     </div>
                     <div className="item-price">
-                      ₦{(item.price * item.qty).toLocaleString()}
+                      ₦{(item.price * item.qty).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </div>
                   </div>
                 ))
@@ -197,16 +199,16 @@ export default function Checkout() {
 
             <div className="order-summary">
               <div className="summary-row">
-                <span>Subtotal</span>
-                <span>₦{cartTotal.toLocaleString()}</span>
+                <span>Subtotal ({cart.length} items)</span>
+                <span>₦{cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
               <div className="summary-row">
                 <span>Shipping</span>
-                <span>Calculated at checkout</span>
+                <span style={{ color: 'var(--primary)', fontWeight: 600 }}>Free</span>
               </div>
               <div className="summary-row total">
                 <span>Total</span>
-                <span>₦{cartTotal.toLocaleString()}</span>
+                <span>₦{cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
 
               <button

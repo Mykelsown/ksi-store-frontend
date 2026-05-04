@@ -51,13 +51,17 @@ export default function Cart() {
             {cart.map((item) => (
               <div key={item.id} className="cart-item">
                 <div className="cart-item-img">
-                  <Package size={20} />
+                  {item.image ? (
+                    <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px' }} />
+                  ) : (
+                    <Package size={20} />
+                  )}
                 </div>
                 <div className="cart-item-info">
                   <div className="cart-item-brand">{item.brand}</div>
                   <div className="cart-item-name">{item.name}</div>
                   <div className="cart-item-price">
-                    ₦{item.price.toLocaleString()} each
+                    ₦{item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} each
                   </div>
                   <div className="qty-control">
                     <button
@@ -100,7 +104,7 @@ export default function Cart() {
               <span>
                 Subtotal ({cart.reduce((s, c) => s + c.qty, 0)} items)
               </span>
-              <span>₦{cartTotal.toLocaleString()}</span>
+              <span>₦{cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
             <div className="summary-row">
               <span>Delivery</span>
@@ -110,7 +114,7 @@ export default function Cart() {
             </div>
             <div className="summary-row summary-total">
               <span>Total</span>
-              <span>₦{cartTotal.toLocaleString()}</span>
+              <span>₦{cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
             <button
               className="btn-primary"

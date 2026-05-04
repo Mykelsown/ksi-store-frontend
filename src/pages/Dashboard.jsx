@@ -76,7 +76,7 @@ export default function Dashboard() {
             </div>
             <div className="dashboard-chip">
               <span>Cart total</span>
-              <strong>₦{cartTotal.toLocaleString()}</strong>
+              <strong>₦{cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
             </div>
             <div className="dashboard-chip">
               <span>Total orders</span>
@@ -121,13 +121,19 @@ export default function Dashboard() {
           <article className="dashboard-card">
             <h2>Recent orders</h2>
             {recentOrders.length === 0 ? (
-              <p>No recent orders yet.</p>
+              <p>No recent orders yet. <Link to="/phones" style={{ color: 'var(--primary)' }}>Start shopping</Link></p>
             ) : (
               <div className="dashboard-actions">
                 {recentOrders.map((order) => (
-                  <div key={order.id} className="dashboard-action-link">
-                    #{order.id.slice(0, 8)} • {order.status} • ₦
-                    {Number(order.totalAmount || 0).toLocaleString()}
+                  <div key={order.id} className="dashboard-action-link" style={{ padding: '0.75rem', backgroundColor: '#f5f5f5', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontWeight: '600' }}>#{order.id?.slice(0, 8) || 'N/A'}</div>
+                      <div style={{ fontSize: '0.85rem', color: '#666' }}>Status: {order.status}</div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontWeight: '600' }}>₦{Number(order.totalAmount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                      <div style={{ fontSize: '0.85rem', color: '#666' }}>{new Date(order.createdAt).toLocaleDateString()}</div>
+                    </div>
                   </div>
                 ))}
               </div>

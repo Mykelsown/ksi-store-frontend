@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart } from "lucide-react";
 import { useApp } from "../context/useApp";
+import { formatPrice, formatRating, formatReviewCount, formatStockStatus, formatBrand } from "../utils/formatting";
 import "./ProductCard.css";
 
 export default function ProductCard({ product }) {
@@ -50,40 +51,26 @@ export default function ProductCard({ product }) {
 
       {/* Body */}
       <div className="card-body">
-        <div className="card-brand">{product.brand}</div>
-        <div className="card-name">{product.name}</div>
+        <div className="card-brand">{formatBrand(product.brand)}</div>
+        <div className="card-name" title={product.name}>{product.name}</div>
         <div className="card-rating">
-          <span className="stars">
-            {"★".repeat(Math.floor(product.rating || 0))}
-            {"☆".repeat(5 - Math.floor(product.rating || 0))}
+          <span className="stars" title={`${product.rating || 0} out of 5 stars`}>
+            {formatRating(product.rating)}
           </span>
           <span className="review-count">
-            {product.rating || 0} ({(product.numReviews || 0).toLocaleString()})
+            {(Number(product.rating) || 0).toFixed(1)} ({formatReviewCount(product.numReviews)})
           </span>
         </div>
         <div className="card-price">
           <span className="price-now">
-            ₦
-            {(product.price || 0).toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
+            {formatPrice(product.price)}
           </span>
-          {product.stock > 0 ? (
-            <span
-              className="stock-status"
-              style={{ color: "green", fontSize: "0.85rem" }}
-            >
-              {product.stock} in stock
-            </span>
-          ) : (
-            <span
-              className="stock-status"
-              style={{ color: "red", fontSize: "0.85rem" }}
-            >
-              Out of stock
-            </span>
-          )}
+          <span
+            className="stock-status"
+            style={{ color: product.stock > 0 ? "green" : "red", fontSize: "0.85rem" }}
+          >
+            {formatStockStatus(product.stock)}
+          </span>
         </div>
       </div>
 
