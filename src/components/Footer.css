@@ -37,6 +37,10 @@
   font-weight: 800;
   color: white;
 }
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
 .footer-col p {
   font-size: 0.95rem;
   line-height: 1.8;

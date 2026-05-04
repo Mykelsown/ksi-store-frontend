@@ -26,7 +26,7 @@
   padding: 0.6rem;
   border-radius: calc(var(--radius) - 2px);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1.08rem;
   cursor: pointer;
   transition: all 0.2s;
   background: none;
@@ -80,7 +80,7 @@
 
 .form-group label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.96rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -90,7 +90,7 @@
 .forgot-link {
   text-align: center;
   margin-top: 0.85rem;
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   color: var(--text-2);
 }
 .forgot-link a {
@@ -107,7 +107,7 @@
 .account-benefits h4 {
   font-family: "Syne", sans-serif;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.08rem;
   margin-bottom: 0.85rem;
   color: var(--primary-dark);
 }
@@ -117,6 +117,6 @@
   gap: 0.45rem;
 }
 .benefit-item {
-  font-size: 0.85rem;
+  font-size: 1.02rem;
   color: var(--text-2);
 }

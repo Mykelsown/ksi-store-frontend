@@ -1,6 +1,6 @@
 /* src/pages/About.css */
 .about-container { max-width: 860px; }
-.about-intro { font-size: 1.15rem; color: var(--text-2); margin-bottom: 2.5rem; line-height: 1.8; }
+.about-intro { font-size: 1.38rem; color: var(--text-2); margin-bottom: 2.5rem; line-height: 1.8; }
 .about-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -19,12 +19,12 @@
 .stat-card strong {
   display: block;
   font-family: 'Syne', sans-serif;
-  font-size: 1.75rem;
+  font-size: 2.1rem;
   font-weight: 800;
   color: var(--primary);
   margin-bottom: 0.25rem;
 }
-.stat-card span { font-size: 0.85rem; color: var(--text-2); }
+.stat-card span { font-size: 1.02rem; color: var(--text-2); }
 
 .about-story {
   display: grid;
@@ -36,10 +36,10 @@
 .about-story h2 {
   font-family: 'Syne', sans-serif;
   font-weight: 700;
-  font-size: 1.35rem;
+  font-size: 1.62rem;
   margin-bottom: 1rem;
 }
-.about-story p { color: var(--text-2); line-height: 1.8; margin-bottom: 1rem; font-size: 0.95rem; }
+.about-story p { color: var(--text-2); line-height: 1.8; margin-bottom: 1rem; font-size: 1.14rem; }
 .about-visual {
   background: var(--primary-ultra);
   border-radius: var(--radius-lg);
@@ -80,7 +80,7 @@
   justify-content: center;
   margin: 0 auto 0.75rem;
 }
-.team-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 0.25rem; }
+.team-card h3 { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 0.25rem; font-size: 1.08rem; }
 .team-card p { font-size: 0.82rem; color: var(--text-2); }
 
 @media (max-width: 768px) {

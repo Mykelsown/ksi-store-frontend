@@ -73,7 +73,6 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-content">
           <div className="hero-text">
-            <span className="hero-badge">New Arrival</span>
             <h1 className="hero-title">
               Galaxy S25 Ultra
               <br />

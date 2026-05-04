@@ -64,7 +64,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 16px;
+  font-size: 19.2px;
 }
 
 body {
@@ -138,7 +138,7 @@ img {
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.14rem;
   border: none;
   cursor: pointer;
   transition: var(--transition);
@@ -162,7 +162,7 @@ img {
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.14rem;
   border: 1.5px solid var(--primary);
   cursor: pointer;
   transition: var(--transition);
@@ -184,7 +184,7 @@ img {
   padding: 0.75rem 1.75rem;
   border-radius: var(--radius);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.14rem;
   border: 1.5px solid rgba(255, 255, 255, 0.35);
   cursor: pointer;
   transition: var(--transition);
@@ -199,7 +199,7 @@ img {
   border: 1.5px solid var(--border);
   border-radius: var(--radius);
   padding: 0.8rem 1rem;
-  font-size: 0.95rem;
+  font-size: 1.14rem;
   color: var(--text);
   transition: border-color 0.2s;
   font-family: 'DM Sans', sans-serif;
@@ -222,7 +222,7 @@ textarea.form-input { resize: vertical; }
 
 .section-title {
   font-family: 'Syne', sans-serif;
-  font-size: 1.45rem;
+  font-size: 1.74rem;
   font-weight: 700;
   color: var(--text);
 }
@@ -232,7 +232,7 @@ textarea.form-input { resize: vertical; }
 .see-all {
   color: var(--primary);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 1.08rem;
   cursor: pointer;
   transition: opacity 0.2s;
 }
@@ -244,14 +244,14 @@ textarea.form-input { resize: vertical; }
   padding: 4rem 2rem;
   color: var(--text-2);
 }
-.empty-state .empty-icon { font-size: 4rem; margin-bottom: 1rem; }
+.empty-state .empty-icon { font-size: 4.8rem; margin-bottom: 1rem; }
 .empty-state h3 {
   font-family: 'Syne', sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: var(--text);
 }
-.empty-state p { margin-bottom: 1.5rem; font-size: 0.9rem; }
+.empty-state p { margin-bottom: 1.5rem; font-size: 1.08rem; }
 
 /* BADGE */
 .badge-chip {
@@ -259,7 +259,7 @@ textarea.form-input { resize: vertical; }
   align-items: center;
   padding: 0.2rem 0.55rem;
   border-radius: 6px;
-  font-size: 0.7rem;
+  font-size: 0.84rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -269,7 +269,7 @@ textarea.form-input { resize: vertical; }
 .badge-chip.hot { background: #ea580c; color: white; }
 
 /* STARS */
-.stars { color: #f59e0b; font-size: 0.85rem; }
+.stars { color: #f59e0b; font-size: 1.02rem; }
 
 /* PAGE HERO */
 .page-hero {
@@ -279,11 +279,11 @@ textarea.form-input { resize: vertical; }
 }
 .page-hero h1 {
   font-family: 'Syne', sans-serif;
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
   font-weight: 800;
   margin-bottom: 0.5rem;
 }
-.page-hero p { opacity: 0.85; font-size: 1rem; }
+.page-hero p { opacity: 0.85; font-size: 1.2rem; }
 
 /* TOAST */
 .toast-container {
@@ -302,7 +302,7 @@ textarea.form-input { resize: vertical; }
   padding: 0.9rem 1.4rem;
   border-radius: var(--radius);
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 1.08rem;
   box-shadow: 0 8px 32px rgba(0,0,0,.4);
   border-left: 4px solid var(--primary);
   max-width: 300px;
