@@ -1,6 +1,4 @@
-/* =============================================
-   KSI GADGET — Global Styles
-   ============================================= */
+/* Global Styles */
 
 :root {
   --primary: #16a34a;
@@ -340,4 +338,60 @@ textarea.form-input { resize: vertical; }
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
+}
+
+/* RESPONSIVE - TABLET (768px and below) */
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .btn-primary,
+  .btn-outline,
+  .btn-ghost {
+    padding: 0.65rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .form-input,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select,
+  textarea {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* RESPONSIVE - MOBILE (480px and below) */
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .btn-primary,
+  .btn-outline,
+  .btn-ghost {
+    padding: 0.55rem 1.25rem;
+    font-size: 0.85rem;
+  }
+
+  .form-input,
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  select,
+  textarea {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
 }

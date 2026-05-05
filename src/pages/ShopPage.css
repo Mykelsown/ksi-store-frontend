@@ -1,4 +1,3 @@
-/* src/pages/ShopPage.css */
 .shop-layout { display: flex; gap: 2rem; align-items: flex-start; }
 
 .filters-sidebar {
@@ -71,4 +70,55 @@
 @media (max-width: 768px) {
   .shop-layout { flex-direction: column; }
   .filters-sidebar { width: 100%; position: static; }
+  .filter-title {
+    font-size: 1.1rem;
+  }
+  .filter-label {
+    font-size: 0.8rem;
+  }
+  .check-item {
+    font-size: 0.9rem;
+  }
+  .price-label {
+    font-size: 0.8rem;
+  }
+  .results-count {
+    font-size: 0.9rem;
+  }
+  .sort-select {
+    font-size: 0.9rem;
+  }
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-title {
+    font-size: 0.95rem;
+  }
+  .filter-label {
+    font-size: 0.7rem;
+  }
+  .check-item {
+    font-size: 0.8rem;
+  }
+  .price-label {
+    font-size: 0.7rem;
+  }
+  .sort-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .results-count {
+    font-size: 0.8rem;
+  }
+  .sort-select {
+    font-size: 0.8rem;
+    width: 100%;
+  }
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
 }

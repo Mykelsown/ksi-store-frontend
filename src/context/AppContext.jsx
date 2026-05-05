@@ -1,4 +1,3 @@
-// src/context/AppContext.jsx
 import { useState, useEffect, useCallback } from "react";
 import { AppContext } from "./appContextInstance";
 import {
