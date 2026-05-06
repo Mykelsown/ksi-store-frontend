@@ -229,6 +229,26 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
+          
+          {/* Mobile Auth Links */}
+          {!user && (
+            <div className="auth-actions second">
+              <Link
+                to="/account?tab=login"
+                className="auth-link auth-link--primary"
+                onClick={() => setMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link 
+                to="/account?tab=register" 
+                className="auth-link"
+                onClick={() => setMenuOpen(false)}
+              >
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       </nav>
     </header>
