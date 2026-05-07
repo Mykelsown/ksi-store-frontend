@@ -33,7 +33,7 @@ export default function Navbar() {
       sessionStorage.removeItem("user");
       setUser(null);
       setAccountMenuOpen(false);
-      showToast("Signed out successfully");
+      showToast("Signed out successfully", "success");
       navigate("/account");
     }
   };

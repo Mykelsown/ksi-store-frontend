@@ -74,12 +74,13 @@ export function AppProvider({ children }) {
   // ── Toast ──────────────────────────────────────────────────────
   const [toasts, setToasts] = useState([]);
 
-  const showToast = useCallback((message) => {
+  const showToast = useCallback((message, type = "default") => {
     const id = Date.now();
-    setToasts((prev) => [...prev, { id, message }]);
+    setToasts((prev) => [...prev, { id, message, type }]);
+    const duration = type === "error" ? 8000 : 5000;
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3000);
+    }, duration);
   }, []);
 
   // ── Theme ─────────────────────────────────────────────────────
@@ -321,6 +322,7 @@ export function AppProvider({ children }) {
         user,
         setUser,
         toasts,
+        setToasts,
         showToast,
         searchQuery,
         setSearchQuery,

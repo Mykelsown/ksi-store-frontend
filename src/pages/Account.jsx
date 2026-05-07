@@ -95,7 +95,7 @@ export default function Account() {
           setUser(payload.user);
         }
 
-        showToast("Signed in successfully");
+        showToast("Signed in successfully", "success");
         navigate("/dashboard");
       } else {
         const data = await registerUser({
@@ -116,7 +116,7 @@ export default function Account() {
           setUser(payload.user);
         }
 
-        showToast("Account created! Please sign in.");
+        showToast("Account created! Please sign in.", "success");
         setForm({ email: form.email.trim(), password: "", name: "" });
         setTab("login");
         navigate("/account?tab=login", { replace: true });
@@ -138,7 +138,7 @@ export default function Account() {
       if (err.response) {
         console.error(err.response.data || err.message);
       }
-      showToast(message);
+      showToast(message, "error");
     } finally {
       setIsLoading(false);
     }
