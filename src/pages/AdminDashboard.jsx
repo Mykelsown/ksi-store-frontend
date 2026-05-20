@@ -21,7 +21,13 @@ import {
 } from "../api/orders";
 import "./AdminDashboard.css";
 
-const ORDER_STATUSES = ["pending", "processing", "shipped", "delivered", "cancelled"];
+const ORDER_STATUSES = [
+  "pending",
+  "processing",
+  "shipped",
+  "delivered",
+  "cancelled",
+];
 const PAYMENT_STATUSES = ["pending", "completed", "failed", "refunded"];
 const PRODUCT_CATEGORIES = [
   "Electronics",
@@ -105,7 +111,10 @@ export default function AdminDashboard() {
       { label: "Revenue", value: `₦${formatCurrency(stats?.totalRevenue)}` },
       { label: "Orders", value: stats?.total ?? 0 },
       { label: "Pending", value: stats?.pending ?? 0 },
-      { label: "Active users", value: users.filter((item) => item.isActive !== false).length },
+      {
+        label: "Active users",
+        value: users.filter((item) => item.isActive !== false).length,
+      },
     ],
     [stats, users],
   );
@@ -132,8 +141,12 @@ export default function AdminDashboard() {
     limit: productQuery.limit,
     sortBy: productQuery.sortBy,
     sortOrder: productQuery.sortOrder,
-    ...(productQuery.search.trim() ? { search: productQuery.search.trim() } : {}),
-    ...(productQuery.category !== "all" ? { category: productQuery.category } : {}),
+    ...(productQuery.search.trim()
+      ? { search: productQuery.search.trim() }
+      : {}),
+    ...(productQuery.category !== "all"
+      ? { category: productQuery.category }
+      : {}),
   };
 
   const loadAdminData = async () => {
@@ -197,7 +210,9 @@ export default function AdminDashboard() {
     return (
       <div className="section admin-shell">
         <div className="container">
-          <div className="admin-panel admin-loading">Loading admin session…</div>
+          <div className="admin-panel admin-loading">
+            Loading admin session…
+          </div>
         </div>
       </div>
     );
@@ -274,7 +289,9 @@ export default function AdminDashboard() {
         <button
           type="button"
           className="btn-small btn-small--ghost"
-          onClick={() => onPageChange(Math.min(pagination.pages, currentPage + 1))}
+          onClick={() =>
+            onPageChange(Math.min(pagination.pages, currentPage + 1))
+          }
           disabled={currentPage >= pagination.pages || saving}
         >
           Next
@@ -291,7 +308,9 @@ export default function AdminDashboard() {
     try {
       await Promise.all([
         updateOrderStatus(orderId, { status: draft.status }),
-        updateOrderPaymentStatus(orderId, { paymentStatus: draft.paymentStatus }),
+        updateOrderPaymentStatus(orderId, {
+          paymentStatus: draft.paymentStatus,
+        }),
       ]);
       showToast("Order updated", "success");
       await loadAdminData();
@@ -306,7 +325,13 @@ export default function AdminDashboard() {
   };
 
   const resetOrderFilters = () =>
-    setOrderQuery({ page: 1, limit: DEFAULT_LIMIT, search: "", status: "all", paymentStatus: "all" });
+    setOrderQuery({
+      page: 1,
+      limit: DEFAULT_LIMIT,
+      search: "",
+      status: "all",
+      paymentStatus: "all",
+    });
 
   const resetUserFilters = () =>
     setUserQuery({ page: 1, limit: DEFAULT_LIMIT, search: "", status: "all" });
@@ -455,7 +480,12 @@ export default function AdminDashboard() {
             </p>
           </div>
           <div className="admin-hero-actions">
-            <button type="button" className="btn-secondary" onClick={loadAdminData} disabled={loading || saving}>
+            <button
+              type="button"
+              className="btn-secondary"
+              onClick={loadAdminData}
+              disabled={loading || saving}
+            >
               Refresh data
             </button>
             <Link to="/phones" className="btn-primary">
@@ -510,12 +540,16 @@ export default function AdminDashboard() {
                     className="admin-input"
                     placeholder="Search order number, customer, or email"
                     value={orderQuery.search}
-                    onChange={(event) => updateOrderQuery("search", event.target.value)}
+                    onChange={(event) =>
+                      updateOrderQuery("search", event.target.value)
+                    }
                   />
                   <select
                     className="admin-input"
                     value={orderQuery.status}
-                    onChange={(event) => updateOrderQuery("status", event.target.value)}
+                    onChange={(event) =>
+                      updateOrderQuery("status", event.target.value)
+                    }
                   >
                     <option value="all">All statuses</option>
                     {ORDER_STATUSES.map((status) => (
@@ -527,7 +561,9 @@ export default function AdminDashboard() {
                   <select
                     className="admin-input"
                     value={orderQuery.paymentStatus}
-                    onChange={(event) => updateOrderQuery("paymentStatus", event.target.value)}
+                    onChange={(event) =>
+                      updateOrderQuery("paymentStatus", event.target.value)
+                    }
                   >
                     <option value="all">All payments</option>
                     {PAYMENT_STATUSES.map((status) => (
@@ -536,7 +572,11 @@ export default function AdminDashboard() {
                       </option>
                     ))}
                   </select>
-                  <button type="button" className="btn-small btn-small--ghost" onClick={resetOrderFilters}>
+                  <button
+                    type="button"
+                    className="btn-small btn-small--ghost"
+                    onClick={resetOrderFilters}
+                  >
                     Reset
                   </button>
                 </div>
@@ -559,18 +599,30 @@ export default function AdminDashboard() {
                         return (
                           <tr key={order.id}>
                             <td>
-                              <strong>{order.orderNumber || order.id?.slice(0, 8)}</strong>
-                              <span>{new Date(order.createdAt).toLocaleDateString()}</span>
+                              <strong>
+                                {order.orderNumber || order.id?.slice(0, 8)}
+                              </strong>
+                              <span>
+                                {new Date(order.createdAt).toLocaleDateString()}
+                              </span>
                             </td>
                             <td>
-                              <strong>{order.user?.name || "Unknown user"}</strong>
+                              <strong>
+                                {order.user?.name || "Unknown user"}
+                              </strong>
                               <span>{order.user?.email || "No email"}</span>
                             </td>
                             <td>
                               <select
-                                value={draft.status || order.status || "pending"}
+                                value={
+                                  draft.status || order.status || "pending"
+                                }
                                 onChange={(event) =>
-                                  handleOrderDraftChange(order.id, "status", event.target.value)
+                                  handleOrderDraftChange(
+                                    order.id,
+                                    "status",
+                                    event.target.value,
+                                  )
                                 }
                               >
                                 {ORDER_STATUSES.map((status) => (
@@ -582,9 +634,17 @@ export default function AdminDashboard() {
                             </td>
                             <td>
                               <select
-                                value={draft.paymentStatus || order.paymentStatus || "pending"}
+                                value={
+                                  draft.paymentStatus ||
+                                  order.paymentStatus ||
+                                  "pending"
+                                }
                                 onChange={(event) =>
-                                  handleOrderDraftChange(order.id, "paymentStatus", event.target.value)
+                                  handleOrderDraftChange(
+                                    order.id,
+                                    "paymentStatus",
+                                    event.target.value,
+                                  )
                                 }
                               >
                                 {PAYMENT_STATUSES.map((status) => (
@@ -611,10 +671,8 @@ export default function AdminDashboard() {
                     </tbody>
                   </table>
                 </div>
-                {renderPagination(
-                  orderPagination,
-                  orderQuery.page,
-                  (page) => updateOrderQuery("page", page),
+                {renderPagination(orderPagination, orderQuery.page, (page) =>
+                  updateOrderQuery("page", page),
                 )}
               </section>
             )}
@@ -634,18 +692,26 @@ export default function AdminDashboard() {
                     className="admin-input"
                     placeholder="Search name or email"
                     value={userQuery.search}
-                    onChange={(event) => updateUserQuery("search", event.target.value)}
+                    onChange={(event) =>
+                      updateUserQuery("search", event.target.value)
+                    }
                   />
                   <select
                     className="admin-input"
                     value={userQuery.status}
-                    onChange={(event) => updateUserQuery("status", event.target.value)}
+                    onChange={(event) =>
+                      updateUserQuery("status", event.target.value)
+                    }
                   >
                     <option value="all">All accounts</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                   </select>
-                  <button type="button" className="btn-small btn-small--ghost" onClick={resetUserFilters}>
+                  <button
+                    type="button"
+                    className="btn-small btn-small--ghost"
+                    onClick={resetUserFilters}
+                  >
                     Reset
                   </button>
                 </div>
@@ -656,7 +722,8 @@ export default function AdminDashboard() {
                         <strong>{item.name}</strong>
                         <span>{item.email}</span>
                         <small>
-                          Role: {item.role} · Status: {item.isActive === false ? "inactive" : "active"}
+                          Role: {item.role} · Status:{" "}
+                          {item.isActive === false ? "inactive" : "active"}
                         </small>
                       </div>
                       <div className="admin-item-actions">
@@ -664,7 +731,9 @@ export default function AdminDashboard() {
                           <button
                             type="button"
                             className="btn-small"
-                            onClick={() => handleUserAction("reactivate", item.id)}
+                            onClick={() =>
+                              handleUserAction("reactivate", item.id)
+                            }
                             disabled={saving}
                           >
                             Reactivate
@@ -673,7 +742,9 @@ export default function AdminDashboard() {
                           <button
                             type="button"
                             className="btn-small btn-small--ghost"
-                            onClick={() => handleUserAction("deactivate", item.id)}
+                            onClick={() =>
+                              handleUserAction("deactivate", item.id)
+                            }
                             disabled={saving}
                           >
                             Deactivate
@@ -691,10 +762,8 @@ export default function AdminDashboard() {
                     </article>
                   ))}
                 </div>
-                {renderPagination(
-                  userPagination,
-                  userQuery.page,
-                  (page) => updateUserQuery("page", page),
+                {renderPagination(userPagination, userQuery.page, (page) =>
+                  updateUserQuery("page", page),
                 )}
               </section>
             )}
@@ -704,10 +773,18 @@ export default function AdminDashboard() {
                 <div className="admin-panel-header">
                   <div>
                     <p className="admin-section-label">Products</p>
-                    <h2>{selectedProductId ? "Edit catalog item" : "Add catalog item"}</h2>
+                    <h2>
+                      {selectedProductId
+                        ? "Edit catalog item"
+                        : "Add catalog item"}
+                    </h2>
                   </div>
                   {selectedProductId && (
-                    <button type="button" className="btn-link" onClick={clearProductForm}>
+                    <button
+                      type="button"
+                      className="btn-link"
+                      onClick={clearProductForm}
+                    >
                       Cancel edit
                     </button>
                   )}
@@ -719,12 +796,16 @@ export default function AdminDashboard() {
                     className="admin-input"
                     placeholder="Search products"
                     value={productQuery.search}
-                    onChange={(event) => updateProductQuery("search", event.target.value)}
+                    onChange={(event) =>
+                      updateProductQuery("search", event.target.value)
+                    }
                   />
                   <select
                     className="admin-input"
                     value={productQuery.category}
-                    onChange={(event) => updateProductQuery("category", event.target.value)}
+                    onChange={(event) =>
+                      updateProductQuery("category", event.target.value)
+                    }
                   >
                     <option value="all">All categories</option>
                     {PRODUCT_CATEGORIES.map((category) => (
@@ -736,13 +817,19 @@ export default function AdminDashboard() {
                   <select
                     className="admin-input"
                     value={productQuery.limit}
-                    onChange={(event) => updateProductQuery("limit", Number(event.target.value))}
+                    onChange={(event) =>
+                      updateProductQuery("limit", Number(event.target.value))
+                    }
                   >
                     <option value={6}>6 / page</option>
                     <option value={12}>12 / page</option>
                     <option value={24}>24 / page</option>
                   </select>
-                  <button type="button" className="btn-small btn-small--ghost" onClick={resetProductFilters}>
+                  <button
+                    type="button"
+                    className="btn-small btn-small--ghost"
+                    onClick={resetProductFilters}
+                  >
                     Reset
                   </button>
                 </div>
@@ -754,7 +841,10 @@ export default function AdminDashboard() {
                       <input
                         value={productForm.name}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, name: event.target.value }))
+                          setProductForm((current) => ({
+                            ...current,
+                            name: event.target.value,
+                          }))
                         }
                         required
                       />
@@ -764,7 +854,10 @@ export default function AdminDashboard() {
                       <input
                         value={productForm.brand}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, brand: event.target.value }))
+                          setProductForm((current) => ({
+                            ...current,
+                            brand: event.target.value,
+                          }))
                         }
                       />
                     </label>
@@ -776,7 +869,10 @@ export default function AdminDashboard() {
                         step="0.01"
                         value={productForm.price}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, price: event.target.value }))
+                          setProductForm((current) => ({
+                            ...current,
+                            price: event.target.value,
+                          }))
                         }
                         required
                       />
@@ -788,7 +884,10 @@ export default function AdminDashboard() {
                         min="0"
                         value={productForm.stock}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, stock: event.target.value }))
+                          setProductForm((current) => ({
+                            ...current,
+                            stock: event.target.value,
+                          }))
                         }
                         required
                       />
@@ -798,7 +897,10 @@ export default function AdminDashboard() {
                       <select
                         value={productForm.category}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, category: event.target.value }))
+                          setProductForm((current) => ({
+                            ...current,
+                            category: event.target.value,
+                          }))
                         }
                       >
                         {PRODUCT_CATEGORIES.map((category) => (
@@ -813,7 +915,10 @@ export default function AdminDashboard() {
                       <input
                         value={productForm.imageUrl}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, imageUrl: event.target.value }))
+                          setProductForm((current) => ({
+                            ...current,
+                            imageUrl: event.target.value,
+                          }))
                         }
                       />
                     </label>
@@ -823,7 +928,10 @@ export default function AdminDashboard() {
                         rows="4"
                         value={productForm.description}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, description: event.target.value }))
+                          setProductForm((current) => ({
+                            ...current,
+                            description: event.target.value,
+                          }))
                         }
                         required
                       />
@@ -833,17 +941,28 @@ export default function AdminDashboard() {
                         type="checkbox"
                         checked={productForm.featured}
                         onChange={(event) =>
-                          setProductForm((current) => ({ ...current, featured: event.target.checked }))
+                          setProductForm((current) => ({
+                            ...current,
+                            featured: event.target.checked,
+                          }))
                         }
                       />
                       <span>Featured product</span>
                     </label>
                   </div>
                   <div className="admin-form-actions">
-                    <button type="submit" className="btn-primary" disabled={saving}>
+                    <button
+                      type="submit"
+                      className="btn-primary"
+                      disabled={saving}
+                    >
                       {selectedProductId ? "Update product" : "Create product"}
                     </button>
-                    <button type="button" className="btn-secondary" onClick={clearProductForm}>
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      onClick={clearProductForm}
+                    >
                       Clear form
                     </button>
                   </div>

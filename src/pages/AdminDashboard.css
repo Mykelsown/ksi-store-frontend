@@ -9,7 +9,11 @@
   padding: 2rem;
   border-radius: var(--radius-xl);
   background:
-    radial-gradient(circle at top left, rgba(255, 197, 92, 0.24), transparent 34%),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 197, 92, 0.24),
+      transparent 34%
+    ),
     linear-gradient(135deg, #101828 0%, #1d2939 100%);
   color: white;
   box-shadow: var(--shadow-lg);
@@ -364,7 +368,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .btn-small:hover,

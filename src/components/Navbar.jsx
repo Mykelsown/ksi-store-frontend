@@ -237,7 +237,7 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
-          
+
           {/* Mobile Auth Links */}
           {!user && (
             <div className="auth-actions second">
@@ -248,8 +248,8 @@ export default function Navbar() {
               >
                 Sign In
               </Link>
-              <Link 
-                to="/account?tab=register" 
+              <Link
+                to="/account?tab=register"
                 className="auth-link"
                 onClick={() => setMenuOpen(false)}
               >
