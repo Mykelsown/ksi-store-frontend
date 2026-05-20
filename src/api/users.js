@@ -15,8 +15,8 @@ export const deleteMyAccount = async () => {
   return res.data;
 };
 
-export const getUsers = async () => {
-  const res = await api.get("/users");
+export const getUsers = async (params = {}) => {
+  const res = await api.get("/users", { params });
   return res.data;
 };
 

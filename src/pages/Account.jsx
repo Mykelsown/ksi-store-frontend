@@ -96,7 +96,7 @@ export default function Account() {
         }
 
         showToast("Signed in successfully", "success");
-        navigate("/dashboard");
+        navigate(payload.user?.role === "admin" ? "/admin" : "/dashboard");
       } else {
         const data = await registerUser({
           name: form.name.trim(),

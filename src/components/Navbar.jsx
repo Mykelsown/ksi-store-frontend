@@ -174,6 +174,14 @@ export default function Navbar() {
                       >
                         Dashboard
                       </Link>
+                      {user.role === "admin" && (
+                        <Link
+                          to="/admin"
+                          onClick={() => setAccountMenuOpen(false)}
+                        >
+                          Admin panel
+                        </Link>
+                      )}
                       <Link
                         to="/account"
                         onClick={() => setAccountMenuOpen(false)}
