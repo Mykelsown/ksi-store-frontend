@@ -8,10 +8,14 @@ import {
   ShieldCheck,
   Smartphone,
   Truck,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { getProducts } from "../api/products";
 import ProductCard from "../components/ProductCard";
-import samsungS25Image from "../assets/samsung-s25-plus.png";
+import samsungS25PlusImage from "../assets/samsung-s25-plus.png";
+import macbook17ProImage from "../assets/mackbook-17-pro.png";
+import iphone17ProMaxImage from "../assets/Iphone17-PM.png";
 import "./Home.css";
 
 function useCountdown(initialSeconds) {
@@ -30,6 +34,53 @@ export default function Home() {
   const navigate = useNavigate();
   const countdown = useCountdown(3 * 3600 + 24 * 60 + 17);
   const [products, setProducts] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Carousel slides data
+  const heroSlides = [
+    {
+      image: samsungS25PlusImage,
+      title: "Samsung S25+",
+      description: "Experience the next generation of mobile technology with the Samsung S25+.",
+      cta: "Shop Now",
+      ctaLink: "/shop"
+    },
+    {
+      image: macbook17ProImage,
+      title: "MacBook Pro 17\"",
+      description: "Unleash your creativity with the all-new MacBook Pro 17-inch.",
+      cta: "Explore MacBook",
+      ctaLink: "/shop"
+    },
+    {
+      image: iphone17ProMaxImage,
+      title: "iPhone 17 Pro Max",
+      description: "Discover innovation redefined with the iPhone 17 Pro Max.",
+      cta: "View iPhone",
+      ctaLink: "/shop"
+    }
+  ];
+
+  // Auto-advance carousel every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroSlides.length]);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const goToPrevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  const goToNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
 
   useEffect(() => {
     let cancelled = false;
@@ -70,43 +121,59 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      {/* HERO */}
+      {/* HERO CAROUSEL */}
       <section className="hero">
-        <div className="container hero-content">
-          <div className="hero-text">
-            <h1 className="hero-title">
-              Galaxy S25 Ultra
-              <br />
-              <span>Redefine Possible</span>
-            </h1>
-            <p className="hero-sub">
-              200MP camera · 5000mAh battery · S Pen included
-            </p>
-            <div className="hero-price">
-              From <strong>₦850,000</strong>
+        <div className="hero-carousel-wrapper">
+          {heroSlides.map((slide, index) => (
+            <div
+              key={index}
+              className={`hero-slide ${index === currentSlide ? "active" : ""}`}
+            >
+              <div className="container hero-content">
+                <div className="hero-text">
+                  <h1 className="hero-title">
+                    {slide.title}
+                    <br />
+                    <span>{slide.subtitle}</span>
+                  </h1>
+                  <p className="hero-sub">{slide.description}</p>
+                  <div className="hero-price">
+                    From <strong>{slide.price}</strong>
+                  </div>
+                  <div className="hero-btns">
+                    <button
+                      className="btn-primary"
+                      onClick={() => navigate(slide.ctaLink)}
+                    >
+                      {slide.cta}
+                    </button>
+                    <button className="btn-ghost" onClick={() => navigate("/deals")}>
+                      View Deals
+                    </button>
+                  </div>
+                </div>
+                <div className="hero-image">
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="phone-mockup"
+                  />
+                </div>
+              </div>
             </div>
-            <div className="hero-btns">
-              <button
-                className="btn-primary"
-                onClick={() => navigate("/phones")}
-              >
-                Shop Now
-              </button>
-              <button className="btn-ghost" onClick={() => navigate("/deals")}>
-                View Deals
-              </button>
-            </div>
-          </div>
-          <div className="hero-image">
-            {/* <div > */}
-              <img src={samsungS25Image} alt="Samsung S25 Plus" className="phone-mockup" />
-            {/* </div> */}
-          </div>
+          ))}
         </div>
+
+        {/* Carousel Indicators/Dots */}
         <div className="hero-dots">
-          <span className="dot active" />
-          <span className="dot" />
-          <span className="dot" />
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              className={`dot ${index === currentSlide ? "active" : ""}`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 
