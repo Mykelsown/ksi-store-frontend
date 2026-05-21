@@ -25,6 +25,7 @@ import Account from "./pages/Account";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -65,6 +66,7 @@ export default function App() {
               <Route path="/account" element={<Account />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/admin" element={<AdminDashboard />} />
               {/* 404 */}
               <Route
                 path="*"

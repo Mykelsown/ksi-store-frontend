@@ -33,7 +33,7 @@ export default function ShopPage({ category }) {
   const mappedCategory = category === "deals" ? undefined : category;
   const [selectedBrand, setSelectedBrand] = useState("All");
   const [sortBy, setSortBy] = useState("popular");
-  const [maxPrice, setMaxPrice] = useState(2000);
+  const [maxPrice, setMaxPrice] = useState(2500000);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -130,8 +130,8 @@ export default function ShopPage({ category }) {
                 <input
                   type="range"
                   min="10"
-                  max="2000"
-                  step="10"
+                  max="5000000"
+                  step="1000"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
                   className="price-range"
@@ -150,7 +150,7 @@ export default function ShopPage({ category }) {
                 style={{ width: "100%" }}
                 onClick={() => {
                   setSelectedBrand("All");
-                  setMaxPrice(2000);
+                  setMaxPrice(2500000);
                   setSortBy("popular");
                 }}
               >
