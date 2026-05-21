@@ -1,4 +1,126 @@
 .about-container { max-width: 860px; }
+
+/* Welcome Section */
+.about-welcome {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.about-welcome h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.76rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.about-welcome p {
+  font-size: 1.14rem;
+  color: var(--text-2);
+  line-height: 1.8;
+}
+
+/* What We Offer Section */
+.about-what-we-offer {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+.about-what-we-offer h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.62rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.about-what-we-offer > p {
+  font-size: 1.08rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.brands-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.brand-tag {
+  background: var(--primary-ultra);
+  color: var(--primary);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid var(--primary-xlight);
+}
+
+/* Goals Section */
+.about-goals {
+  margin-bottom: 3rem;
+}
+.about-goals h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.62rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+}
+.goal-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.goal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: var(--primary);
+}
+.goal-icon {
+  color: var(--primary);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+.goal-card p {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Why Choose Us Section */
+.about-why-choose {
+  background: var(--primary-ultra);
+  border: 1.5px solid var(--primary-xlight);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+.about-why-choose h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.62rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+.about-why-choose p {
+  font-size: 1.08rem;
+  color: var(--text-2);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+.about-why-choose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Stats Section */
 .about-intro { font-size: 1.38rem; color: var(--text-2); margin-bottom: 2.5rem; line-height: 1.8; }
 .about-stats {
   display: grid;
@@ -25,6 +147,72 @@
 }
 .stat-card span { font-size: 1.02rem; color: var(--text-2); }
 
+/* CTA Section */
+.about-cta {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.about-cta h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.76rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.about-cta p {
+  font-size: 1.08rem;
+  color: var(--text-2);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.cta-button {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 0.9rem 2rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  background: var(--primary-dark);
+}
+
+/* Visual Section */
+.about-visual {
+  background: var(--primary-ultra);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1.5px solid var(--primary-xlight);
+  margin-bottom: 0;
+}
+.about-visual h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.about-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  text-align: center;
+}
+.about-emoji-grid span {
+  font-size: 2.8rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+.about-emoji-grid span:hover {
+  transform: scale(1.1);
+}
+
 .about-story {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -39,19 +227,6 @@
   margin-bottom: 1rem;
 }
 .about-story p { color: var(--text-2); line-height: 1.8; margin-bottom: 1rem; font-size: 1.14rem; }
-.about-visual {
-  background: var(--primary-ultra);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  border: 1.5px solid var(--primary-xlight);
-}
-.about-emoji-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  text-align: center;
-}
-.about-emoji-grid span { font-size: 2.5rem; }
 
 .team-grid {
   display: grid;
@@ -85,6 +260,46 @@
 @media (max-width: 768px) {
   .about-container { max-width: 100%; }
   .about-intro { font-size: 1.15rem; }
+  .about-welcome h2 { font-size: 1.4rem; }
+  .about-welcome p { font-size: 0.95rem; }
+  .about-what-we-offer {
+    padding: 1.5rem;
+  }
+  .about-what-we-offer h2 {
+    font-size: 1.3rem;
+  }
+  .about-what-we-offer > p {
+    font-size: 0.95rem;
+  }
+  .brands-list {
+    gap: 0.6rem;
+  }
+  .brand-tag {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.8rem;
+  }
+  .about-goals h2 {
+    font-size: 1.3rem;
+  }
+  .goals-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 1rem;
+  }
+  .about-why-choose {
+    padding: 1.5rem;
+  }
+  .about-why-choose h2 {
+    font-size: 1.3rem;
+  }
+  .about-why-choose p {
+    font-size: 0.95rem;
+  }
+  .about-cta h2 {
+    font-size: 1.4rem;
+  }
+  .about-cta p {
+    font-size: 0.95rem;
+  }
   .about-stats { grid-template-columns: repeat(2, 1fr); }
   .stat-card strong {
     font-size: 1.5rem;
@@ -99,6 +314,18 @@
   .about-story p {
     font-size: 0.95rem;
   }
+  .about-visual {
+    padding: 1.5rem;
+  }
+  .about-visual h3 {
+    font-size: 1.1rem;
+  }
+  .about-emoji-grid {
+    gap: 1rem;
+  }
+  .about-emoji-grid span {
+    font-size: 2rem;
+  }
   .team-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
   .team-card h3 {
     font-size: 0.9rem;
@@ -110,6 +337,66 @@
 
 @media (max-width: 480px) {
   .about-intro { font-size: 0.95rem; }
+  .about-welcome h2 { font-size: 1.2rem; }
+  .about-welcome p { font-size: 0.85rem; }
+  .about-what-we-offer {
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+  .about-what-we-offer h2 {
+    font-size: 1.1rem;
+  }
+  .about-what-we-offer > p {
+    font-size: 0.85rem;
+  }
+  .brands-list {
+    gap: 0.5rem;
+  }
+  .brand-tag {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.7rem;
+  }
+  .about-goals h2 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  .goals-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.8rem;
+  }
+  .goal-card {
+    padding: 1rem;
+  }
+  .goal-icon {
+    margin-bottom: 0.5rem;
+  }
+  .goal-card p {
+    font-size: 0.85rem;
+  }
+  .about-why-choose {
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+  .about-why-choose h2 {
+    font-size: 1.1rem;
+  }
+  .about-why-choose p {
+    font-size: 0.85rem;
+  }
+  .about-cta {
+    margin-bottom: 2rem;
+  }
+  .about-cta h2 {
+    font-size: 1.2rem;
+  }
+  .about-cta p {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  .cta-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
   .about-stats { grid-template-columns: 1fr; gap: 0.75rem; }
   .stat-card {
     padding: 1rem;
@@ -128,14 +415,18 @@
     font-size: 0.85rem;
   }
   .about-visual {
-    padding: 1.25rem;
+    padding: 1rem;
+  }
+  .about-visual h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
   }
   .about-emoji-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.75rem;
   }
   .about-emoji-grid span {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   .team-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
   .team-card {
