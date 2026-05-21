@@ -4,9 +4,11 @@ const DEFAULT_HOSTED_BASE_URL = "https://ksi-gadgets-backend.onrender.com/api";
 const DEFAULT_LOCAL_BASE_URL = "http://localhost:5000/api";
 
 const PRIMARY_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || DEFAULT_HOSTED_BASE_URL;
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV ? DEFAULT_LOCAL_BASE_URL : DEFAULT_HOSTED_BASE_URL);
 const FALLBACK_BASE_URL =
-  import.meta.env.VITE_API_FALLBACK_BASE_URL || DEFAULT_LOCAL_BASE_URL;
+  import.meta.env.VITE_API_FALLBACK_BASE_URL ||
+  (import.meta.env.DEV ? DEFAULT_HOSTED_BASE_URL : DEFAULT_LOCAL_BASE_URL);
 
 let activeBaseUrl = PRIMARY_BASE_URL;
 

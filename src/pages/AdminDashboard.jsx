@@ -66,6 +66,15 @@ const toStatusLabel = (value) =>
 
 const normalizeResponse = (payload) => payload?.data || payload || {};
 
+const getApiErrorMessage = (error, fallbackMessage) => {
+  const details = error?.response?.data?.errors;
+  if (Array.isArray(details) && details.length > 0) {
+    return details[0];
+  }
+
+  return error?.response?.data?.message || fallbackMessage;
+};
+
 export default function AdminDashboard() {
   const { user, showToast } = useApp();
   const [loading, setLoading] = useState(true);
@@ -390,6 +399,12 @@ export default function AdminDashboard() {
 
   const handleProductSave = async (event) => {
     event.preventDefault();
+
+    if (!productForm.imageUrl.trim()) {
+      showToast("Primary image URL is required", "error");
+      return;
+    }
+
     setSaving(true);
 
     const payload = {
@@ -414,10 +429,7 @@ export default function AdminDashboard() {
       clearProductForm();
       await loadAdminData();
     } catch (error) {
-      showToast(
-        error?.response?.data?.message || "Failed to save product",
-        "error",
-      );
+      showToast(getApiErrorMessage(error, "Failed to save product"), "error");
     } finally {
       setSaving(false);
     }
