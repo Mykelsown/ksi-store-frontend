@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { getProducts } from "../api/products";
 import ProductCard from "../components/ProductCard";
+import samsungS25Image from "../assets/samsung-s25-plus.png";
 import "./Home.css";
 
 function useCountdown(initialSeconds) {
@@ -97,9 +98,9 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-image">
-            <div className="phone-mockup">
-              <Smartphone size={72} />
-            </div>
+            {/* <div > */}
+              <img src={samsungS25Image} alt="Samsung S25 Plus" className="phone-mockup" />
+            {/* </div> */}
           </div>
         </div>
         <div className="hero-dots">
