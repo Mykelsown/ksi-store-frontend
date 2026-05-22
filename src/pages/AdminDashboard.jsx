@@ -19,6 +19,7 @@ import {
   updateOrderPaymentStatus,
   updateOrderStatus,
 } from "../api/orders";
+import CloudinaryUploader from "../components/CloudinaryUploader";
 import "./AdminDashboard.css";
 
 const ORDER_STATUSES = [
@@ -934,6 +935,19 @@ export default function AdminDashboard() {
                         }
                       />
                     </label>
+
+                    {/* Cloudinary Image Uploader */}
+                    <CloudinaryUploader
+                      cloudName={import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}
+                      uploadPreset={import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}
+                      onImageUrlObtained={(url) => {
+                        setProductForm((current) => ({
+                          ...current,
+                          imageUrl: url,
+                        }));
+                      }}
+                    />
+
                     <label className="admin-form-wide">
                       <span>Description</span>
                       <textarea

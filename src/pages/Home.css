@@ -1,4 +1,4 @@
-/* HERO */
+/* HERO CAROUSEL */
 .hero {
   background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%);
   min-height: 420px;
@@ -14,6 +14,38 @@
   inset: 0;
   background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255,255,255,.06) 0%, transparent 70%);
 }
+
+.hero-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  pointer-events: none;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  animation: slideIn 0.8s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .hero-content {
   display: flex;
   align-items: center;
@@ -22,6 +54,7 @@
   padding: 3rem 1.25rem;
   position: relative;
   z-index: 1;
+  height: 100%;
 }
 .hero-text { flex: 1; }
 .hero-badge {
@@ -52,32 +85,90 @@
 .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
 .hero-image { flex-shrink: 0; }
 .phone-mockup {
-  width: 160px;
-  height: 300px;
-  background: rgba(255,255,255,.12);
+  width: 320px;
+  height: 600px;
+  object-fit: contain;
+  object-position: center;
   border-radius: 28px;
   border: 2px solid rgba(255,255,255,.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   backdrop-filter: blur(10px);
   animation: float 4s ease-in-out infinite;
 }
+
+/* Carousel Navigation Buttons */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+}
+
+.carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-btn-prev {
+  left: 1.5rem;
+}
+
+.carousel-btn-next {
+  right: 1.5rem;
+}
+
+/* Carousel Indicators */
 .hero-dots {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2.5rem;
+  margin-top: 3rem;
+  z-index: 10;
 }
+
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 99px;
   background: rgba(255,255,255,.35);
+  border: 1.5px solid rgba(255,255,255,.5);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
-.dot.active { width: 24px; background: white; }
+
+.dot:hover {
+  background: rgba(255,255,255,.5);
+  transform: scale(1.15);
+}
+
+.dot.active {
+  width: 28px;
+  background: white;
+  border-color: white;
+}
 
 /* PROMO */
 .promo-section { padding: 1.5rem 0; }
@@ -200,6 +291,9 @@
   .hero-content { flex-direction: column; text-align: center; padding: 2rem 1.25rem; }
   .hero-btns { justify-content: center; }
   .hero-image { display: none; }
+  .carousel-btn { width: 40px; height: 40px; }
+  .carousel-btn-prev { left: 1rem; }
+  .carousel-btn-next { right: 1rem; }
   .promo-grid { grid-template-columns: 1fr; }
   .hero-title { font-size: clamp(1.5rem, 4vw, 2.2rem); }
   .hero-sub { font-size: 0.95rem; }
@@ -219,6 +313,13 @@
 @media (max-width: 480px) {
   .why-grid { grid-template-columns: 1fr; }
   .hero-content { padding: 1.5rem 1rem; }
+  .carousel-btn { width: 36px; height: 36px; }
+  .carousel-btn svg { width: 18px; height: 18px; }
+  .carousel-btn-prev { left: 0.75rem; }
+  .carousel-btn-next { right: 0.75rem; }
+  .hero-dots { padding: 1rem 0.5rem; gap: 0.4rem; }
+  .dot { width: 8px; height: 8px; }
+  .dot.active { width: 20px; }
   .hero-title { font-size: clamp(1.2rem, 3vw, 1.8rem); }
   .hero-sub { font-size: 0.85rem; }
   .hero-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; }
