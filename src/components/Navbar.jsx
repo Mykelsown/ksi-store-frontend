@@ -95,7 +95,7 @@ export default function Navbar() {
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
-            <Link to="/wishlist" className="nav-icon-btn" title="Wishlist">
+            <Link to="/wishlist" className="nav-icon-btn" id="wishlist" title="Wishlist">
               <svg
                 width="20"
                 height="20"

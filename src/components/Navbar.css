@@ -67,6 +67,7 @@
   background: var(--surface);
   color: var(--text);
   font-size: 1.14rem;
+  min-width: 50px;
 }
 .search-bar input::placeholder {
   color: var(--text-3);
@@ -444,11 +445,17 @@
     order: 2;
     gap: 0.35rem;
     margin-left: auto;
+    margin-top: -45px;
+  }
+  
+  #wishlist {
+    display: flex;
   }
 
   .nav-icon-btn:not(.cart-btn) {
     display: none;
   }
+
 
   .cart-btn {
     display: flex;
