@@ -84,16 +84,48 @@ export function AppProvider({ children }) {
   }, []);
 
   // ── Theme ─────────────────────────────────────────────────────
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem("theme") || "light";
+    } catch {
+      return "light";
+    }
+  });
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+      // ignore storage errors (e.g. private browsing)
+    }
   }, [theme]);
 
   const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));
 
   // ── Cart ──────────────────────────────────────────────────────
-  const [cart, setCart] = useState([]);
+  // Logged-in users get a server-synced cart. Guests get a localStorage-backed
+  // cart so checkout still works without requiring an account.
+  const GUEST_CART_KEY = "guestCart";
+
+  const loadGuestCart = () => {
+    try {
+      const raw = localStorage.getItem(GUEST_CART_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveGuestCart = (items) => {
+    try {
+      localStorage.setItem(GUEST_CART_KEY, JSON.stringify(items));
+    } catch {
+      // ignore storage errors
+    }
+  };
+
+  const [cart, setCart] = useState(() => (user?.id ? [] : loadGuestCart()));
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
@@ -103,7 +135,7 @@ export function AppProvider({ children }) {
       const token = sessionStorage.getItem("token");
       if (!token || !user?.id) {
         if (!isCancelled) {
-          setCart([]);
+          setCart(loadGuestCart());
         }
         return;
       }
@@ -173,7 +205,29 @@ export function AppProvider({ children }) {
     async (product) => {
       const token = sessionStorage.getItem("token");
       if (!token || !user?.id) {
-        showToast("Please sign in to add items to cart");
+        setCart((prev) => {
+          const existing = prev.find((c) => c.id === product.id);
+          const next = existing
+            ? prev.map((c) =>
+                c.id === product.id ? { ...c, qty: c.qty + 1 } : c,
+              )
+            : [
+                ...prev,
+                {
+                  id: product.id,
+                  qty: 1,
+                  price: Number(product.price),
+                  name: product.name,
+                  brand: product.brand || "KSI",
+                  image: Array.isArray(product.images)
+                    ? product.images[0]
+                    : undefined,
+                },
+              ];
+          saveGuestCart(next);
+          return next;
+        });
+        showToast(`${product.name} added to cart`);
         return;
       }
 
@@ -196,6 +250,15 @@ export function AppProvider({ children }) {
 
   const removeFromCart = useCallback(
     async (id) => {
+      if (!user?.id) {
+        setCart((prev) => {
+          const next = prev.filter((c) => c.id !== id);
+          saveGuestCart(next);
+          return next;
+        });
+        return;
+      }
+
       try {
         const response = await removeCartItem(id);
         const cartData = response?.data || response;
@@ -206,7 +269,7 @@ export function AppProvider({ children }) {
         showToast(message);
       }
     },
-    [showToast],
+    [showToast, user?.id],
   );
 
   const updateQty = useCallback(
@@ -218,6 +281,17 @@ export function AppProvider({ children }) {
 
       const nextQty = Math.max(1, current.qty + delta);
 
+      if (!user?.id) {
+        setCart((prev) => {
+          const next = prev.map((c) =>
+            c.id === id ? { ...c, qty: nextQty } : c,
+          );
+          saveGuestCart(next);
+          return next;
+        });
+        return;
+      }
+
       try {
         const response = await updateCartItem(id, { quantity: nextQty });
         const cartData = response?.data || response;
@@ -228,10 +302,16 @@ export function AppProvider({ children }) {
         showToast(message);
       }
     },
-    [cart, showToast],
+    [cart, showToast, user?.id],
   );
 
   const clearCart = useCallback(async () => {
+    if (!user?.id) {
+      setCart([]);
+      saveGuestCart([]);
+      return;
+    }
+
     try {
       const response = await clearCartApi();
       const cartData = response?.data || response;
@@ -240,7 +320,7 @@ export function AppProvider({ children }) {
       const message = error?.response?.data?.message || "Failed to clear cart";
       showToast(message);
     }
-  }, [showToast]);
+  }, [showToast, user?.id]);
 
   const cartCount = cart.reduce((sum, c) => sum + c.qty, 0);
   const cartTotal = cart.reduce((sum, c) => sum + c.price * c.qty, 0);
@@ -301,9 +381,6 @@ export function AppProvider({ children }) {
     [wishlist],
   );
 
-  // ── Search ────────────────────────────────────────────────────
-  const [searchQuery, setSearchQuery] = useState("");
-
   return (
     <AppContext.Provider
       value={{
@@ -324,8 +401,6 @@ export function AppProvider({ children }) {
         toasts,
         setToasts,
         showToast,
-        searchQuery,
-        setSearchQuery,
       }}
     >
       {children}

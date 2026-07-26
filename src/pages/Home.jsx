@@ -18,12 +18,24 @@ import macbook17ProImage from "../assets/mackbook-17-pro.png";
 import iphone17ProMaxImage from "../assets/Iphone17-PM.png";
 import "./Home.css";
 
-function useCountdown(initialSeconds) {
-  const [time, setTime] = useState(initialSeconds);
+// Flash deals reset daily at local midnight — the countdown reflects
+// time remaining until then, so it's always accurate rather than an
+// arbitrary value that loops forever with no real expiry.
+function useCountdownToMidnight() {
+  const getSecondsRemaining = () => {
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    return Math.max(0, Math.round((midnight.getTime() - now.getTime()) / 1000));
+  };
+
+  const [time, setTime] = useState(getSecondsRemaining);
+
   useEffect(() => {
-    const t = setInterval(() => setTime((s) => (s <= 0 ? 86400 : s - 1)), 1000);
+    const t = setInterval(() => setTime(getSecondsRemaining()), 1000);
     return () => clearInterval(t);
   }, []);
+
   const h = String(Math.floor(time / 3600)).padStart(2, "0");
   const m = String(Math.floor((time % 3600) / 60)).padStart(2, "0");
   const s = String(time % 60).padStart(2, "0");
@@ -32,7 +44,7 @@ function useCountdown(initialSeconds) {
 
 export default function Home() {
   const navigate = useNavigate();
-  const countdown = useCountdown(3 * 3600 + 24 * 60 + 17);
+  const countdown = useCountdownToMidnight();
   const [products, setProducts] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -163,6 +175,22 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        {/* Carousel Prev/Next Controls */}
+        <button
+          className="carousel-btn carousel-btn-prev"
+          onClick={goToPrevSlide}
+          aria-label="Previous slide"
+        >
+          <ChevronLeft size={22} />
+        </button>
+        <button
+          className="carousel-btn carousel-btn-next"
+          onClick={goToNextSlide}
+          aria-label="Next slide"
+        >
+          <ChevronRight size={22} />
+        </button>
 
         {/* Carousel Indicators/Dots */}
         <div className="hero-dots">

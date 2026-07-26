@@ -89,10 +89,24 @@ export const formatBrand = (brand) => {
  * @param {number} stock - The stock amount
  * @returns {string} Formatted stock status
  */
-export const formatStockStatus = (stock) => {
+export const formatStockStatus = (stock, lowStockThreshold = 10) => {
   const stck = Number(stock) || 0;
-  if (stck > 0) return `✓ ${stck} in stock`;
-  return "✗ Out of stock";
+  if (stck <= 0) return "✗ Out of stock";
+  if (stck <= lowStockThreshold) return `⚠ Only ${stck} left`;
+  return `✓ ${stck} in stock`;
+};
+
+/**
+ * Classify stock level for styling purposes
+ * @param {number} stock - Current stock quantity
+ * @param {number} lowStockThreshold - Threshold below which stock is "low"
+ * @returns {"out"|"low"|"ok"} Stock status class
+ */
+export const getStockStatusClass = (stock, lowStockThreshold = 10) => {
+  const stck = Number(stock) || 0;
+  if (stck <= 0) return "out";
+  if (stck <= lowStockThreshold) return "low";
+  return "ok";
 };
 
 /**

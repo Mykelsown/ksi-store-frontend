@@ -157,8 +157,11 @@
 .card-footer {
   padding: 0.75rem 0.9rem 0.9rem;
   border-top: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
 }
 .add-to-cart {
+  flex: 1;
   width: 100%;
   background: var(--primary-xlight);
   color: var(--primary);
@@ -175,6 +178,45 @@
   background: var(--primary);
   color: white;
   border-color: var(--primary);
+}
+
+.compare-toggle {
+  flex: 0 0 auto;
+  width: 40px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.compare-toggle:hover:not(:disabled) {
+  border-color: var(--primary-light);
+  color: var(--primary);
+}
+.compare-toggle.active {
+  background: var(--primary-xlight);
+  color: var(--primary);
+  border-color: var(--primary-light);
+}
+.compare-toggle:disabled {
+  cursor: default;
+}
+
+.stock-status {
+  font-size: 0.85rem;
+}
+.stock-status.ok {
+  color: #16a34a;
+}
+.stock-status.low {
+  color: #d97706;
+}
+.stock-status.out {
+  color: #dc2626;
 }
 
 /* RESPONSIVE */

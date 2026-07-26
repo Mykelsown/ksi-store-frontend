@@ -1,25 +1,71 @@
 // src/components/Navbar.jsx
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Moon, Sun, Zap } from "lucide-react";
 import { useApp } from "../context/useApp";
 import { logoutUser } from "../api/auth";
+import { getProducts } from "../api/products";
+import { formatPrice } from "../utils/formatting";
 import "./Navbar.css";
+
+const SEARCH_DEBOUNCE_MS = 300;
 
 export default function Navbar() {
   const { theme, toggleTheme, cartCount, wishlist, user, setUser, showToast } =
     useApp();
   const [search, setSearch] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const debounceRef = useRef(null);
+  const searchWrapRef = useRef(null);
+
+  useEffect(() => {
+    if (!search.trim()) {
+      setSuggestions([]);
+      return;
+    }
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const response = await getProducts({ search: search.trim(), limit: 5 });
+        const payload = response?.data || response;
+        setSuggestions(payload?.products || []);
+      } catch {
+        setSuggestions([]);
+      }
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [search]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchWrapRef.current && !searchWrapRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (search.trim()) {
       navigate(`/search?q=${encodeURIComponent(search.trim())}`);
       setSearch("");
+      setShowSuggestions(false);
     }
+  };
+
+  const handleSuggestionClick = (productId) => {
+    setSearch("");
+    setShowSuggestions(false);
+    navigate(`/product/${productId}`);
   };
 
   const handleLogout = async () => {
@@ -63,27 +109,56 @@ export default function Navbar() {
           </Link>
 
           {/* Search */}
-          <form className="search-bar" onSubmit={handleSearch}>
-            <input
-              type="text"
-              placeholder="Search phones, laptops, accessories…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button type="submit" className="search-btn" aria-label="Search">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-              </svg>
-            </button>
-          </form>
+          <div className="search-wrap" ref={searchWrapRef}>
+            <form className="search-bar" onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Search phones, laptops, accessories…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onFocus={() => setShowSuggestions(true)}
+              />
+              <button type="submit" className="search-btn" aria-label="Search">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                >
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.35-4.35" />
+                </svg>
+              </button>
+            </form>
+
+            {showSuggestions && suggestions.length > 0 && (
+              <div className="search-suggestions">
+                {suggestions.map((p) => (
+                  <div
+                    key={p.id}
+                    className="search-suggestion-item"
+                    onClick={() => handleSuggestionClick(p.id)}
+                  >
+                    <img
+                      src={
+                        p.images?.[0] ||
+                        "https://via.placeholder.com/40x40?text=No+Image"
+                      }
+                      alt={p.name}
+                    />
+                    <div>
+                      <div className="search-suggestion-name">{p.name}</div>
+                      <div className="search-suggestion-price">
+                        {formatPrice(p.price)}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Actions */}
           <div className="nav-actions">

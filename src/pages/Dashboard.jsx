@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Download } from "lucide-react";
 import { useApp } from "../context/useApp";
 import { getProfile } from "../api/users";
-import { getMyOrderStats, getMyOrders } from "../api/orders";
+import { getMyOrderStats, getMyOrders, downloadInvoice } from "../api/orders";
+import AddressBook from "../components/AddressBook";
 import "./Dashboard.css";
 
+const ACTIVE_ORDER_STATUSES = ["pending", "processing", "shipped"];
+const POLL_INTERVAL_MS = 20000;
+
 export default function Dashboard() {
-  const { cartCount, wishlist, cartTotal, user } = useApp();
+  const { cartCount, wishlist, cartTotal, user, showToast } = useApp();
   const [profile, setProfile] = useState(user || null);
   const [orderStats, setOrderStats] = useState(null);
   const [recentOrders, setRecentOrders] = useState([]);
+
+  // Bumped on mount and, while an order is still active, every POLL_INTERVAL_MS —
+  // both cases just need the effect below to re-run and re-fetch.
+  const [refreshTick, setRefreshTick] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -28,9 +37,7 @@ export default function Dashboard() {
             getMyOrders({ page: 1, limit: 3 }),
           ]);
 
-        if (cancelled) {
-          return;
-        }
+        if (cancelled) return;
 
         setProfile(profileResponse?.data || profileResponse || null);
         setOrderStats(statsResponse?.data || statsResponse || null);
@@ -38,9 +45,7 @@ export default function Dashboard() {
         const ordersPayload = ordersResponse?.data || ordersResponse;
         setRecentOrders(ordersPayload?.orders || []);
       } catch {
-        if (!cancelled) {
-          setRecentOrders([]);
-        }
+        if (!cancelled) setRecentOrders([]);
       }
     };
 
@@ -49,7 +54,38 @@ export default function Dashboard() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [refreshTick]);
+
+  // Poll while any recent order is still in an active (non-final) state,
+  // so status/payment updates from webhooks show up without a manual refresh.
+  const hasActiveOrder = recentOrders.some((order) =>
+    ACTIVE_ORDER_STATUSES.includes(order.status),
+  );
+
+  useEffect(() => {
+    if (!hasActiveOrder) return;
+
+    const interval = setInterval(() => {
+      setRefreshTick((tick) => tick + 1);
+    }, POLL_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [hasActiveOrder]);
+
+  const handleDownloadInvoice = async (orderId) => {
+    try {
+      const blob = await downloadInvoice(orderId);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `invoice-${orderId.slice(0, 8)}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      showToast?.("Couldn't download invoice");
+    }
+  };
 
   const firstName = profile?.name?.trim()?.split(/\s+/)?.[0] || "there";
 
@@ -128,16 +164,31 @@ export default function Dashboard() {
                   <div key={order.id} className="dashboard-action-link" style={{ padding: '0.75rem', backgroundColor: '#f5f5f5', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontWeight: '600' }}>#{order.id?.slice(0, 8) || 'N/A'}</div>
-                      <div style={{ fontSize: '0.85rem', color: '#666' }}>Status: {order.status}</div>
+                      <div style={{ fontSize: '0.85rem', color: '#666', textTransform: 'capitalize' }}>Status: {order.status}</div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: '600' }}>₦{Number(order.totalAmount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                      <div style={{ fontSize: '0.85rem', color: '#666' }}>{new Date(order.createdAt).toLocaleDateString()}</div>
+                    <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <div>
+                        <div style={{ fontWeight: '600' }}>₦{Number(order.totalAmount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div style={{ fontSize: '0.85rem', color: '#666' }}>{new Date(order.createdAt).toLocaleDateString()}</div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadInvoice(order.id)}
+                        title="Download invoice"
+                        style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: '6px', padding: '0.4rem', cursor: 'pointer', display: 'flex' }}
+                      >
+                        <Download size={16} />
+                      </button>
                     </div>
                   </div>
                 ))}
               </div>
             )}
+          </article>
+
+          <article className="dashboard-card">
+            <h2>Saved Addresses</h2>
+            <AddressBook />
           </article>
         </div>
       </div>

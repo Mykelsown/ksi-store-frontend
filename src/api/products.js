@@ -25,8 +25,10 @@ export const getProductById = async (id) => {
   return res.data;
 };
 
-export const getProductReviews = async (id) => {
-  const res = await api.get(`/products/${id}/reviews`);
+export const getProductReviews = async (id, sortBy = "recent") => {
+  const res = await api.get(`/products/${id}/reviews`, {
+    params: { sortBy },
+  });
   return res.data;
 };
 
@@ -57,5 +59,15 @@ export const updateProduct = async (id, payload) => {
 
 export const deleteProduct = async (id) => {
   const res = await api.delete(`/products/${id}`);
+  return res.data;
+};
+
+export const getLowStockProducts = async () => {
+  const res = await api.get("/products/low-stock");
+  return res.data;
+};
+
+export const subscribeToStockNotification = async (id, email) => {
+  const res = await api.post(`/products/${id}/notify-stock`, { email });
   return res.data;
 };

@@ -43,3 +43,23 @@ export const changePassword = async (oldPassword, newPassword) => {
   });
   return res.data;
 };
+
+export const verifyTwoFactorLogin = async (userId, token) => {
+  const res = await api.post("/auth/verify-2fa", { userId, token });
+  return res.data;
+};
+
+export const setupTwoFactor = async () => {
+  const res = await api.post("/auth/2fa/setup");
+  return res.data;
+};
+
+export const enableTwoFactor = async (token) => {
+  const res = await api.post("/auth/2fa/enable", { token });
+  return res.data;
+};
+
+export const disableTwoFactor = async (token) => {
+  const res = await api.post("/auth/2fa/disable", { token });
+  return res.data;
+};

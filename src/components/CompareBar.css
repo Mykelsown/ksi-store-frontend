@@ -1,0 +1,52 @@
+.compare-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1.5px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  z-index: 40;
+  flex-wrap: wrap;
+}
+
+.compare-bar-items {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.compare-bar-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.compare-bar-chip button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  color: var(--text-muted);
+}
+
+.compare-bar-actions {
+  display: flex;
+  gap: 0.5rem;
+}

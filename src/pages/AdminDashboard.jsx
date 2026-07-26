@@ -20,6 +20,8 @@ import {
   updateOrderStatus,
 } from "../api/orders";
 import CloudinaryUploader from "../components/CloudinaryUploader";
+import LowStockWidget from "../components/LowStockWidget";
+import SalesAnalyticsChart from "../components/SalesAnalyticsChart";
 import "./AdminDashboard.css";
 
 const ORDER_STATUSES = [
@@ -526,6 +528,13 @@ export default function AdminDashboard() {
           <div className="admin-panel admin-loading">Loading admin data…</div>
         ) : (
           <div className="admin-layout">
+            {activeTab === "overview" && (
+              <>
+                <SalesAnalyticsChart />
+                <LowStockWidget />
+              </>
+            )}
+
             {(activeTab === "overview" || activeTab === "orders") && (
               <section className="admin-panel admin-span-2">
                 <div className="admin-panel-header">

@@ -9,15 +9,41 @@ import {
   Truck,
 } from "lucide-react";
 import { useApp } from "../context/useApp";
-import { getProductById, getProducts } from "../api/products";
+import {
+  getProductById,
+  getProducts,
+  subscribeToStockNotification,
+} from "../api/products";
+import { addRecentlyViewed } from "../utils/recentlyViewed";
+import RecentlyViewed from "../components/RecentlyViewed";
+import ProductReviews from "../components/ProductReviews";
 import "./ProductDetail.css";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, toggleWishlist, isWishlisted } = useApp();
+  const { addToCart, toggleWishlist, isWishlisted, user, showToast } = useApp();
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [notifySubmitted, setNotifySubmitted] = useState(false);
+
+  const handleNotifySubmit = async (e) => {
+    e.preventDefault();
+    const email = user?.email || notifyEmail.trim();
+    if (!email) return;
+
+    try {
+      await subscribeToStockNotification(product.id, email);
+      setNotifySubmitted(true);
+      showToast?.("We'll email you when it's back in stock");
+    } catch (err) {
+      showToast?.(
+        err?.response?.data?.message || "Couldn't set up that notification",
+      );
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -29,6 +55,11 @@ export default function ProductDetail() {
 
         if (!cancelled) {
           setProduct(productData || null);
+          setActiveImageIndex(0);
+        }
+
+        if (productData) {
+          addRecentlyViewed(productData);
         }
 
         if (!productData?.category) {
@@ -79,11 +110,12 @@ export default function ProductDetail() {
     );
   }
 
-  // Get product image
-  const imageUrl =
+  // Product image gallery
+  const images =
     product.images && product.images.length > 0
-      ? product.images[0]
-      : "https://via.placeholder.com/400x400?text=No+Image";
+      ? product.images
+      : ["https://via.placeholder.com/400x400?text=No+Image"];
+  const imageUrl = images[activeImageIndex] || images[0];
 
   return (
     <div className="product-detail-page">
@@ -99,12 +131,30 @@ export default function ProductDetail() {
               <img
                 src={imageUrl}
                 alt={product.name}
+                className="detail-main-image"
                 style={{
                   width: "100%",
                   maxWidth: "500px",
                   borderRadius: "12px",
                 }}
               />
+              {images.length > 1 && (
+                <div className="detail-thumbnails">
+                  {images.map((img, index) => (
+                    <button
+                      key={img + index}
+                      type="button"
+                      className={`detail-thumbnail ${
+                        index === activeImageIndex ? "active" : ""
+                      }`}
+                      onClick={() => setActiveImageIndex(index)}
+                      aria-label={`View image ${index + 1}`}
+                    >
+                      <img src={img} alt={`${product.name} ${index + 1}`} />
+                    </button>
+                  ))}
+                </div>
+              )}
               {product.featured && (
                 <span
                   className="card-badge new"
@@ -142,26 +192,20 @@ export default function ProductDetail() {
                     maximumFractionDigits: 0,
                   })}
                 </span>
-                {product.stock && product.stock > 0 ? (
+                {product.stock > 0 ? (
                   <span
-                    style={{
-                      color: "green",
-                      fontSize: "1rem",
-                      fontWeight: "500",
-                    }}
+                    className={`stock-indicator ${
+                      product.stock <= (product.lowStockThreshold ?? 10)
+                        ? "low"
+                        : "ok"
+                    }`}
                   >
-                    ✓ {product.stock} in stock
+                    {product.stock <= (product.lowStockThreshold ?? 10)
+                      ? `⚠ Only ${product.stock} left in stock`
+                      : `✓ ${product.stock} in stock`}
                   </span>
                 ) : (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "1rem",
-                      fontWeight: "500",
-                    }}
-                  >
-                    ✗ Out of stock
-                  </span>
+                  <span className="stock-indicator out">✗ Out of stock</span>
                 )}
               </div>
 
@@ -183,6 +227,7 @@ export default function ProductDetail() {
                 <button
                   className="btn-primary"
                   onClick={() => addToCart(product)}
+                  disabled={!(product.stock > 0)}
                 >
                   <ShoppingCart size={16} /> Add to Cart
                 </button>
@@ -197,6 +242,30 @@ export default function ProductDetail() {
                   {isWishlisted(product.id) ? " Wishlisted" : " Wishlist"}
                 </button>
               </div>
+
+              {!(product.stock > 0) && (
+                <div className="notify-stock-box">
+                  {notifySubmitted ? (
+                    <p>You're on the list — we'll email you when it's back.</p>
+                  ) : (
+                    <form onSubmit={handleNotifySubmit} className="notify-stock-form">
+                      <p>Out of stock. Get notified when it's back:</p>
+                      {!user && (
+                        <input
+                          type="email"
+                          placeholder="Your email"
+                          value={notifyEmail}
+                          onChange={(e) => setNotifyEmail(e.target.value)}
+                          required
+                        />
+                      )}
+                      <button type="submit" className="btn-outline">
+                        Notify Me
+                      </button>
+                    </form>
+                  )}
+                </div>
+              )}
 
               <div className="detail-assurance">
                 <span>
@@ -261,6 +330,10 @@ export default function ProductDetail() {
           </div>
         </section>
       )}
+
+      <ProductReviews productId={product.id} />
+
+      <RecentlyViewed excludeId={product.id} />
     </div>
   );
 }

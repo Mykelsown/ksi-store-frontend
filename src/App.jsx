@@ -1,10 +1,6 @@
 // src/App.jsx
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  ScrollRestoration,
-} from "react-router-dom";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 import { AppProvider } from "./context/AppContext";
 
@@ -12,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ChatWidget from "./components/ChatWidget";
 import Toast from "./components/Toast";
+import CompareBar from "./components/CompareBar";
 
 import Home from "./pages/Home";
 import ShopPage from "./pages/ShopPage";
@@ -26,10 +23,17 @@ import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import Compare from "./pages/Compare";
+import TrackOrder from "./pages/TrackOrder";
 
 // Scroll to top on route change
 function ScrollToTop() {
-  if (typeof ScrollRestoration !== "undefined") return <ScrollRestoration />;
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return null;
 }
 
@@ -38,6 +42,7 @@ export default function App() {
     <BrowserRouter>
       <AppProvider>
         <div className="app-wrapper">
+          <ScrollToTop />
           <Navbar />
 
           <main className="app-main">
@@ -67,6 +72,8 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/compare" element={<Compare />} />
+              <Route path="/track-order" element={<TrackOrder />} />
               {/* 404 */}
               <Route
                 path="*"
@@ -98,6 +105,7 @@ export default function App() {
           <Footer />
           <ChatWidget />
           <Toast />
+          <CompareBar />
         </div>
       </AppProvider>
     </BrowserRouter>

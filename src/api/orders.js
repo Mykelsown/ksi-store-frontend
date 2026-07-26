@@ -44,3 +44,27 @@ export const updateOrderPaymentStatus = async (id, payload) => {
   const res = await api.put(`/orders/${id}/payment-status`, payload);
   return res.data;
 };
+
+export const trackGuestOrder = async (orderNumber, email) => {
+  const res = await api.get("/orders/track", {
+    params: { orderNumber, email },
+  });
+  return res.data;
+};
+
+export const getInvoiceUrl = (id) => {
+  const base = api.defaults.baseURL || "";
+  return `${base}/orders/${id}/invoice`;
+};
+
+export const downloadInvoice = async (id) => {
+  const res = await api.get(`/orders/${id}/invoice`, {
+    responseType: "blob",
+  });
+  return res.data;
+};
+
+export const getSalesAnalytics = async (days = 30) => {
+  const res = await api.get("/orders/analytics", { params: { days } });
+  return res.data;
+};

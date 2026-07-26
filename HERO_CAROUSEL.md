@@ -177,35 +177,10 @@ Each slide object contains:
 
 ## Current Slide Images
 
-> ⚠️ **Note**: Slides 2 and 3 currently use the Samsung image as placeholder
-
-To properly display MacBook Pro and iPhone images:
-
-1. **Add image files** to `/src/assets/`:
-   - `macbook-pro-17.png` or similar
-   - `iphone-17-pro-max.png` or similar
-
-2. **Import images** in Home.jsx:
-   ```jsx
-   import macbookImage from "../assets/macbook-pro-17.png";
-   import iphoneImage from "../assets/iphone-17-pro-max.png";
-   ```
-
-3. **Update heroSlides array**:
-   ```jsx
-   {
-     id: 2,
-     title: "MacBook Pro 17",
-     image: macbookImage,  // Change from samsungS25Image
-     // ...
-   },
-   {
-     id: 3,
-     title: "iPhone 17 Pro Max",
-     image: iphoneImage,   // Change from samsungS25Image
-     // ...
-   }
-   ```
+Each slide uses its own dedicated image, imported in `Home.jsx` from `/src/assets/`:
+- Slide 1 (Galaxy S25 Ultra): `samsung-s25-plus.png`
+- Slide 2 (MacBook Pro 17): `mackbook-17-pro.png`
+- Slide 3 (iPhone 17 Pro Max): `Iphone17-PM.png`
 
 ## Behavior Specifications
 

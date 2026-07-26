@@ -4,7 +4,13 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Eye, EyeOff, UserRound } from "lucide-react";
 import { useApp } from "../context/useApp";
 import "./Account.css";
-import { loginUser, registerUser, requestPasswordReset } from "../api/auth";
+import {
+  loginUser,
+  registerUser,
+  requestPasswordReset,
+  verifyTwoFactorLogin,
+} from "../api/auth";
+import TwoFactorSettings from "../components/TwoFactorSettings";
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
 
@@ -31,7 +37,7 @@ const getPasswordValidationErrors = (password) => {
 };
 
 export default function Account() {
-  const { showToast, setUser } = useApp();
+  const { showToast, setUser, user } = useApp();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [tab, setTab] = useState(
@@ -40,6 +46,8 @@ export default function Account() {
   const [form, setForm] = useState({ email: "", password: "", name: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [twoFactorUserId, setTwoFactorUserId] = useState(null);
+  const [twoFactorCode, setTwoFactorCode] = useState("");
 
   useEffect(() => {
     const nextTab = searchParams.get("tab");
@@ -83,6 +91,12 @@ export default function Account() {
         });
 
         const payload = data?.data || {};
+
+        if (payload.twoFactorRequired) {
+          setTwoFactorUserId(payload.userId);
+          setIsLoading(false);
+          return;
+        }
 
         if (payload.accessToken) {
           sessionStorage.setItem("token", payload.accessToken);
@@ -143,6 +157,107 @@ export default function Account() {
       setIsLoading(false);
     }
   };
+
+  const handleVerifyTwoFactor = async (event) => {
+    event.preventDefault();
+    if (!twoFactorCode.trim() || isLoading) return;
+
+    setIsLoading(true);
+    try {
+      const data = await verifyTwoFactorLogin(
+        twoFactorUserId,
+        twoFactorCode.trim(),
+      );
+      const payload = data?.data || {};
+
+      if (payload.accessToken) {
+        sessionStorage.setItem("token", payload.accessToken);
+      }
+      if (payload.refreshToken) {
+        sessionStorage.setItem("refreshToken", payload.refreshToken);
+      }
+      if (payload.user) {
+        sessionStorage.setItem("user", JSON.stringify(payload.user));
+        setUser(payload.user);
+      }
+
+      showToast("Signed in successfully", "success");
+      navigate(payload.user?.role === "admin" ? "/admin" : "/dashboard");
+    } catch (err) {
+      showToast(
+        err?.response?.data?.message || "Invalid two-factor code",
+        "error",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (twoFactorUserId) {
+    return (
+      <div className="section">
+        <div className="container account-container">
+          <div className="account-card">
+            <div className="account-avatar">
+              <UserRound size={44} />
+            </div>
+            <h3 style={{ textAlign: "center", marginBottom: "0.5rem" }}>
+              Two-Factor Authentication
+            </h3>
+            <p style={{ textAlign: "center", color: "var(--text-muted)" }}>
+              Enter the 6-digit code from your authenticator app.
+            </p>
+            <form className="account-form" onSubmit={handleVerifyTwoFactor}>
+              <div className="form-group">
+                <label>Authentication Code</label>
+                <input
+                  type="text"
+                  className="form-input"
+                  placeholder="123456"
+                  value={twoFactorCode}
+                  onChange={(e) => setTwoFactorCode(e.target.value)}
+                  disabled={isLoading}
+                  autoFocus
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn-primary"
+                style={{ width: "100%", padding: "1rem", fontSize: "1rem" }}
+                disabled={isLoading}
+              >
+                {isLoading ? "Verifying..." : "Verify"}
+              </button>
+              <p className="forgot-link">
+                <a onClick={() => setTwoFactorUserId(null)}>Back to sign in</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (user) {
+    return (
+      <div className="section">
+        <div className="container account-container">
+          <div className="account-card">
+            <div className="account-avatar">
+              <UserRound size={44} />
+            </div>
+            <h3 style={{ textAlign: "center", marginBottom: "0.5rem" }}>
+              {user.name}
+            </h3>
+            <p style={{ textAlign: "center", color: "var(--text-muted)", marginBottom: "1.5rem" }}>
+              {user.email}
+            </p>
+            <TwoFactorSettings />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="section">

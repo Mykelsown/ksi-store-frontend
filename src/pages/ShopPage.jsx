@@ -31,7 +31,8 @@ const heroConfig = {
 export default function ShopPage({ category }) {
   const config = heroConfig[category];
   const mappedCategory = category === "deals" ? undefined : category;
-  const [selectedBrand, setSelectedBrand] = useState("All");
+  const [selectedBrands, setSelectedBrands] = useState([]);
+  const [inStockOnly, setInStockOnly] = useState(false);
   const [sortBy, setSortBy] = useState("popular");
   const [maxPrice, setMaxPrice] = useState(2500000);
   const [products, setProducts] = useState([]);
@@ -80,16 +81,23 @@ export default function ShopPage({ category }) {
   const filtered = useMemo(() => {
     let list = products;
 
-    if (selectedBrand !== "All")
-      list = list.filter((p) => p.brand === selectedBrand);
+    if (selectedBrands.length > 0)
+      list = list.filter((p) => selectedBrands.includes(p.brand));
+
+    if (inStockOnly) list = list.filter((p) => (p.stock ?? 0) > 0);
 
     return list;
-  }, [products, selectedBrand]);
+  }, [products, selectedBrands, inStockOnly]);
 
-  const brands = [
-    "All",
-    ...new Set((products || []).map((p) => p.brand).filter(Boolean)),
-  ];
+  const brands = [...new Set((products || []).map((p) => p.brand).filter(Boolean))];
+
+  const toggleBrand = (brand) => {
+    setSelectedBrands((prev) =>
+      prev.includes(brand)
+        ? prev.filter((b) => b !== brand)
+        : [...prev, brand],
+    );
+  };
 
   return (
     <div className="shop-page">
@@ -108,16 +116,15 @@ export default function ShopPage({ category }) {
             <aside className="filters-sidebar">
               <h3 className="filter-title">Filters</h3>
 
-              {brands.length > 1 && (
+              {brands.length > 0 && (
                 <div className="filter-group">
                   <label className="filter-label">Brand</label>
                   {brands.map((b) => (
                     <label key={b} className="check-item">
                       <input
-                        type="radio"
-                        name="brand"
-                        checked={selectedBrand === b}
-                        onChange={() => setSelectedBrand(b)}
+                        type="checkbox"
+                        checked={selectedBrands.includes(b)}
+                        onChange={() => toggleBrand(b)}
                       />
                       {b}
                     </label>
@@ -145,11 +152,23 @@ export default function ShopPage({ category }) {
                 </span>
               </div>
 
+              <div className="filter-group">
+                <label className="check-item">
+                  <input
+                    type="checkbox"
+                    checked={inStockOnly}
+                    onChange={(e) => setInStockOnly(e.target.checked)}
+                  />
+                  In stock only
+                </label>
+              </div>
+
               <button
                 className="btn-primary"
                 style={{ width: "100%" }}
                 onClick={() => {
-                  setSelectedBrand("All");
+                  setSelectedBrands([]);
+                  setInStockOnly(false);
                   setMaxPrice(2500000);
                   setSortBy("popular");
                 }}
