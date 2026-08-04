@@ -21,6 +21,7 @@ import About from "./pages/About";
 import Account from "./pages/Account";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
+import PaymentVerify from "./pages/PaymentVerify";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Compare from "./pages/Compare";
@@ -64,6 +65,7 @@ export default function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment/verify" element={<PaymentVerify />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/search" element={<Search />} />
               <Route path="/brands" element={<Brands />} />
