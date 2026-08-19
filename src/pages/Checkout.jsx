@@ -1,22 +1,15 @@
 // src/pages/Checkout.jsx
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-import { Tag } from "lucide-react";
-import { useApp } from "../context/useApp";
-import { createOrder } from "../api/orders";
-import { createPaymentIntent } from "../api/payments";
-import { validateCoupon } from "../api/coupons";
-import { getAddresses } from "../api/addresses";
-=======
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Tag } from "lucide-react";
 import { useApp } from "../context/useApp";
 import { createOrder } from "../api/orders";
 import {
   initializePaystackTransaction,
   verifyPaystackTransaction,
 } from "../api/paystack";
->>>>>>> 645c794 (Connected the backend's paystack payment and built the callback page and payment status page)
+import { validateCoupon } from "../api/coupons";
+import { getAddresses } from "../api/addresses";
 import "./Checkout.css";
 
 // ---------------------------------------------------------------------------
@@ -64,14 +57,11 @@ export default function Checkout() {
 
   const [step, setStep] = useState(STEP.SHIPPING);
   const [loading, setLoading] = useState(false);
-<<<<<<< HEAD
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState("");
-=======
   const [verifyMsg, setVerifyMsg] = useState("Verifying your payment…");
   const [feeBreakdown, setFeeBreakdown] = useState(null);
 
->>>>>>> 645c794 (Connected the backend's paystack payment and built the callback page and payment status page)
   const [shipping, setShipping] = useState({
     shippingAddress: "",
     shippingCity: "",
@@ -113,13 +103,12 @@ export default function Checkout() {
   const applyAddress = (address) => {
     setShipping((prev) => ({
       ...prev,
-      name: address.fullName,
-      shippingAddress: address.street,
-      shippingCity: address.city,
-      shippingState: address.state,
-      shippingZipCode: address.zipCode,
-      shippingCountry: address.country,
-      contactPhone: address.phone,
+      shippingAddress: address.street || address.shippingAddress || "",
+      shippingCity: address.city || address.shippingCity || "",
+      shippingState: address.state || address.shippingState || "",
+      shippingZipCode: address.zipCode || address.shippingZipCode || "",
+      shippingCountry: address.country || address.shippingCountry || "Nigeria",
+      contactPhone: address.phone || address.contactPhone || "",
     }));
   };
 
@@ -229,7 +218,7 @@ export default function Checkout() {
     setLoading(true);
     try {
       // 1. Create the order on the backend (deducts stock, persists address)
-      const orderRes = await createOrder({
+      const orderBody = {
         shippingAddress: shipping.shippingAddress,
         shippingCity: shipping.shippingCity,
         shippingState: shipping.shippingState,
@@ -237,7 +226,6 @@ export default function Checkout() {
         shippingCountry: shipping.shippingCountry,
         contactPhone: shipping.contactPhone,
         notes: shipping.notes,
-<<<<<<< HEAD
         couponCode: appliedCoupon?.coupon?.code,
       };
 
@@ -251,29 +239,15 @@ export default function Checkout() {
       }
 
       const orderRes = await createOrder(orderBody);
-      const orderPayload = unwrap(orderRes);
-      const orderId = orderPayload?.id || orderPayload?.orderId;
-=======
-      });
       const orderData = orderRes?.data || orderRes;
       const orderId = orderData?.id || orderData?.orderId;
 
       if (!orderId) throw new Error("Order creation did not return an ID");
->>>>>>> 645c794 (Connected the backend's paystack payment and built the callback page and payment status page)
 
       // 2. Initialize Paystack transaction (server calculates gross-up fee)
       const paystackRes = await initializePaystackTransaction(orderId);
       const txData = paystackRes?.data || paystackRes;
 
-<<<<<<< HEAD
-      await clearCart();
-      if (paymentIntent?.data?.paymentIntentId) {
-        showToast("Order placed. Payment intent created successfully.");
-      } else {
-        showToast("Order placed successfully");
-      }
-      navigate(user?.id ? "/dashboard" : "/track-order");
-=======
       setFeeBreakdown({
         original: txData.originalAmountNaira,
         fee: txData.feeChargedNaira,
@@ -328,7 +302,6 @@ export default function Checkout() {
       });
 
       handler.openIframe();
->>>>>>> 645c794 (Connected the backend's paystack payment and built the callback page and payment status page)
     } catch (err) {
       const message =
         err?.response?.data?.message || err.message || "Could not place order";
@@ -415,7 +388,6 @@ export default function Checkout() {
 
             <h3>Shipping Details</h3>
 
-<<<<<<< HEAD
             {user?.id && addresses.length > 0 && (
               <div className="form-group">
                 <label>Saved Addresses</label>
@@ -427,13 +399,13 @@ export default function Checkout() {
                   <option value="">Enter address manually</option>
                   {addresses.map((address) => (
                     <option key={address.id} value={address.id}>
-                      {address.label} — {address.street}, {address.city}
+                      {address.label || address.name || "Address"} — {address.street || address.shippingAddress}, {address.city || address.shippingCity}
                     </option>
                   ))}
                 </select>
               </div>
             )}
-=======
+
             {[
               { label: "Address", field: "shippingAddress", placeholder: "12 Admiralty Way" },
               { label: "City", field: "shippingCity", placeholder: "Lagos" },
@@ -452,7 +424,6 @@ export default function Checkout() {
                 />
               </div>
             ))}
->>>>>>> 645c794 (Connected the backend's paystack payment and built the callback page and payment status page)
 
             <div className="form-group">
               <label>Notes (optional)</label>
@@ -548,21 +519,13 @@ export default function Checkout() {
               )}
               <div className="summary-row">
                 <span>Shipping</span>
-<<<<<<< HEAD
-                <span style={{ color: 'var(--primary)', fontWeight: 600 }}>
+                <span style={{ color: "var(--primary)", fontWeight: 600 }}>
                   {shippingCost === 0 ? "Free" : `₦${shippingCost.toLocaleString()}`}
                 </span>
               </div>
               <div className="summary-row">
                 <span>Tax (est.)</span>
                 <span>₦{tax.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-              </div>
-              <div className="summary-row total">
-                <span>Total (est.)</span>
-                <span>₦{estimatedTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-=======
-                <span style={{ color: "var(--primary)", fontWeight: 600 }}>Free</span>
->>>>>>> 645c794 (Connected the backend's paystack payment and built the callback page and payment status page)
               </div>
 
               {/* Paystack fee breakdown – shown after backend calculates it */}
@@ -586,8 +549,8 @@ export default function Checkout() {
                 </>
               ) : (
                 <div className="summary-row total">
-                  <span>Total</span>
-                  <span>₦{cartTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span>Total (est.)</span>
+                  <span>₦{estimatedTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
               )}
 

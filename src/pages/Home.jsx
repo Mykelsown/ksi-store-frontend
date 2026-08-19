@@ -145,13 +145,8 @@ export default function Home() {
                 <div className="hero-text">
                   <h1 className="hero-title">
                     {slide.title}
-                    <br />
-                    <span>{slide.subtitle}</span>
                   </h1>
                   <p className="hero-sub">{slide.description}</p>
-                  <div className="hero-price">
-                    From <strong>{slide.price}</strong>
-                  </div>
                   <div className="hero-btns">
                     <button
                       className="btn-primary"

@@ -164,24 +164,7 @@ export default function Dashboard() {
                   <div key={order.id} className="dashboard-action-link" style={{ padding: '0.75rem', backgroundColor: '#f5f5f5', borderRadius: '6px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div>
                       <div style={{ fontWeight: '600' }}>#{order.id?.slice(0, 8) || 'N/A'}</div>
-<<<<<<< HEAD
                       <div style={{ fontSize: '0.85rem', color: '#666', textTransform: 'capitalize' }}>Status: {order.status}</div>
-                    </div>
-                    <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                      <div>
-                        <div style={{ fontWeight: '600' }}>₦{Number(order.totalAmount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                        <div style={{ fontSize: '0.85rem', color: '#666' }}>{new Date(order.createdAt).toLocaleDateString()}</div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleDownloadInvoice(order.id)}
-                        title="Download invoice"
-                        style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: '6px', padding: '0.4rem', cursor: 'pointer', display: 'flex' }}
-                      >
-                        <Download size={16} />
-                      </button>
-=======
-                      <div style={{ fontSize: '0.85rem', color: '#666' }}>Order: {order.status}</div>
                       <div style={{ fontSize: '0.82rem', marginTop: '0.15rem' }}>
                         <span style={{
                           display: 'inline-block',
@@ -196,13 +179,19 @@ export default function Dashboard() {
                         </span>
                       </div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontWeight: '600' }}>₦{Number(order.totalAmount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                      <div style={{ fontSize: '0.85rem', color: '#666' }}>{new Date(order.createdAt).toLocaleDateString()}</div>
-                      {order.paymentStatus !== 'completed' && (
-                        <a href="/checkout" style={{ fontSize: '0.78rem', color: 'var(--primary)', fontWeight: 600 }}>Pay now</a>
-                      )}
->>>>>>> 645c794 (Connected the backend's paystack payment and built the callback page and payment status page)
+                    <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                      <div>
+                        <div style={{ fontWeight: '600' }}>₦{Number(order.totalAmount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div style={{ fontSize: '0.85rem', color: '#666' }}>{new Date(order.createdAt).toLocaleDateString()}</div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadInvoice(order.id)}
+                        title="Download invoice"
+                        style={{ background: 'none', border: '1.5px solid var(--border)', borderRadius: '6px', padding: '0.4rem', cursor: 'pointer', display: 'flex' }}
+                      >
+                        <Download size={16} />
+                      </button>
                     </div>
                   </div>
                 ))}
